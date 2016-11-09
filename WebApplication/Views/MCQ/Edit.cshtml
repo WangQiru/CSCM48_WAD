@@ -1,0 +1,237 @@
+﻿@model WebApplication.Models.MCQModels
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+<div class="row">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="col-xs-12 col-sm-6 col-md-6 col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0">
+            <div class="form-horizontal">
+                <h4>MCQ</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ID)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ReleaseDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ReleaseDate, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ReleaseDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+    <div class="col-xs-12 col-sm-6 col-md-6 col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0">
+        <div class="form-horizontal">
+            <h4>Questions</h4>
+            <hr />
+            <div class="col-md-12 col-xs-10">
+                <style>
+                    .table-fixed tbody {
+                        height: 230px;
+                        overflow-y: auto;
+                    }
+
+                    .table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+                        display: block;
+                    }
+
+                    .v-align {
+                        float: none;
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+                </style>
+                <table id="questionTable" class="table table-fixed header-fixed">
+                    <tbody id="questionTableBody">
+                        @{
+                            int counter = 1;
+                        }
+                        @foreach (var question in ViewBag.Questions)
+                        {
+                            <tr class="@counter">
+                                <td>
+                                    Question @counter :<span id="@counter">@question.Text</span>
+                                    @Html.TextBox("updateQuestion" + @counter, (string)@question.Text, new { @class = "form-control", @type = "hidden", @rowno = @counter })
+                                </td>
+                            </tr>
+                            <tr class="@counter">
+                                <td>
+                                    <!--
+                                         <a href="/Question/Edit/@question.Value" class="btn btn-sm btn-info" value="@question.Value">Edit</a>
+                                    -->
+                                    <a class="btn btn-sm btn-info updateQuestion" id="updateQuestion-@counter" rowno="@counter" value="@question.Value">Edit</a>
+                                    <a class="btn btn-sm btn-success updateQuestionSubmit" id="updateQuestionSubmit-@counter" rowno="@counter" value="@question.Value" style="display:none">Update</a>
+                                    <a href="#" class="btn btn-sm btn-danger" title="Confirmation" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true" data-content='<a class="btn btn-sm btn-danger deleteQuestion" rowno="@counter" value="@question.Value">Yes</a><a class="btn btn-sm btn-success popoverClose pull-right" >No</a>'>Delete</a>
+                                </td>
+                            </tr>
+                            counter++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <br />
+        </div>
+
+        <div class="col-md-10">
+            <div class="row newQuestion">
+                @Html.TextBox("newQuestion", null, new { @class = "form-control valid v-align", placeholder = "Enter new question", data_val = "true", data_val_required = "Question is required" })
+                <a href="#" id="newQuestionPopover" class="btn btn-success v-align">Add</a>
+                <br /><span id="newQuestionValidation" class="text-danger" style="display:none">Question is required</span> 
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        var counter=@counter;
+        $(function () {
+            $('[data-toggle="popover"]').popover();
+            function QuestionModels(){
+                var self= this;
+                self.MCQID = @Html.Raw(Json.Encode(Model.ID));
+                self.Text = $('#newQuestion').val();
+            }
+
+            $('#questionTableBody').on("click", ".deleteQuestion", function() {
+                var data = {id: $(this).attr('value')};
+                var rowno=$(this).attr('rowno');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AjaxDelete", "Question")",
+                    data: data,
+                    success: function (res) {
+                        $('tr.'+rowno).remove();
+                    }
+                });
+            });
+
+            $('#questionTableBody,#newQuestion').on("click", ".popoverClose", function() {
+                $(this).popover('hide');
+
+            });
+
+            $('.newQuestion').on("click", ".popoverClose", function() {
+                $('#newQuestionPopover').popover('disable').popover("hide");                
+            });
+
+
+            $('#newQuestionPopover').click(function(){
+                if($('#newQuestion').val()==""){
+                    $('#newQuestionValidation').show();
+                    $('#newQuestion').focus();
+                    $('#newQuestionPopover').popover('disable').popover("hide");
+                }
+                else{
+                    $('#newQuestionValidation').hide();   
+                    $('#newQuestionPopover').popover({
+                        placement:'right',
+                        trigger:'focus',
+                        html:true,
+                        title:"Confirmation",
+                        content:'<a class="btn btn-sm btn-danger submitNewQuestion" id="submitNewQuestion" type="submit">Yes</a><a class="btn btn-success btn-sm popoverClose pull-right" >No</a>'
+                    });
+                    $('#newQuestionPopover').popover('enable').popover('show');
+                }
+                      
+            });
+
+
+            $('.newQuestion').on("click", "#submitNewQuestion", function() {
+                    var data=new QuestionModels();
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("AjaxCreate", "Question")",
+                        data: data,
+                        success: function (res) {
+                            $("#questionTable").find('tbody').append($('<tr>').append($('<td>').text('Question ' + counter))).append($('<tr>').append($('<td>').text($('#newQuestion').val()))).append($('<tr>').append($('<td>').text($('#newQuestion').val())));
+                            counter++;
+                            $('#questionTableBody').animate({scrollTop: 1E10}, 1000);
+                            $('#newQuestion').val("");
+                        }
+                    });                
+            });
+
+
+            $('.updateQuestion').click(function(){
+                var rowno=$(this).attr('rowno');
+                $(this).hide();
+                $('#updateQuestionSubmit-'+rowno).show();
+                $('#updateQuestion'+rowno).attr('type','');
+            });
+
+
+
+            $('.updateQuestionSubmit').click(function(){
+                var button=$(this);
+                var rowno=$(this).attr('rowno');
+                var data = {id: $(this).attr('value'),text:$('#updateQuestion'+rowno).val()};
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AjaxUpdate", "Question")",
+                    data: data,
+                    success: function (res) {
+                        console.log("hhhhhhh");
+                        $('span#'+rowno).text($('#updateQuestion'+rowno).val());
+                        $('#updateQuestion'+rowno).attr('type','hidden');
+                        $('#updateQuestionSubmit-'+rowno).hide();
+                        $('#updateQuestion-'+rowno).show();
+                    }
+                });
+            });
+
+
+
+        });
+
+    </script>
+}
+
+

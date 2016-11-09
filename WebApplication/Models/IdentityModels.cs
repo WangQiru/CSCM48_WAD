@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 
 namespace WebApplication.Models
 {
@@ -16,8 +17,10 @@ namespace WebApplication.Models
             // Add custom user claims here
             return userIdentity;
         }
-    }
 
+        public string Name { get; set; }
+        public int StudentNo { get; set; }
+    }
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
@@ -29,5 +32,11 @@ namespace WebApplication.Models
         {
             return new ApplicationDbContext();
         }
+
+
+        public DbSet<MCQModels> MCQs { get; set; }
+        public DbSet<QuestionModels> Questions { get; set; }
+        public DbSet<OptionModels> Options { get; set; }
+        public DbSet<ResponseModels> Responses { get; set; }
     }
 }
