@@ -62,6 +62,7 @@ namespace WebApplication.Controllers
             return View(questionModels);
         }
 
+        [ValidateAntiForgeryToken]
         public JsonResult AjaxCreate(QuestionModels questionModels)
         {
                 db.Questions.Add(questionModels);
@@ -103,6 +104,7 @@ namespace WebApplication.Controllers
             return View(questionModels);
         }
 
+        [ValidateAntiForgeryToken]
         public JsonResult AjaxUpdate(string text, string id)
         {
             QuestionModels questionModels = db.Questions.Find(int.Parse(id));
@@ -139,6 +141,7 @@ namespace WebApplication.Controllers
             return RedirectToAction("Index");
         }
 
+        [ValidateAntiForgeryToken]
         public JsonResult AjaxDelete(string id)
         {
             QuestionModels questionModels = db.Questions.Find(int.Parse(id));

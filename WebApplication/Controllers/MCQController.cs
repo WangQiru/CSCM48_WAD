@@ -71,21 +71,45 @@ namespace WebApplication.Controllers
                 return HttpNotFound();
             }
 
-            var questions = db.Questions.Where(u => u.MCQID == id)
-    .Select(u => new {
-        ID = u.ID,
-        Text = u.Text
-    });
+
+            var results = (from q in db.Questions.Where(u => u.MCQID == id).Select(u => new
+            {
+                ID = u.ID,
+                Text = u.Text
+            })
+                           from o in db.Options.Where(u => u.QuestionID == q.ID).Select(u => new
+                           {
+                               ID = u.ID,
+                               Text = u.Text
+                           })
+                           select new
+                           {
+                               questionID = q.ID,
+                               optionID = o.ID,
+                               optionText = o.Text
+                           }
+                           );
+
+
+            var questions = db.Questions.Where(u => u.MCQID == id).Select(u => new
+            {
+                ID = u.ID,
+                Text = u.Text
+            }).ToList();
 
             List<object> QuestionList = new List<object>();
             foreach (var question in questions)
+            {
                 QuestionList.Add(new
                 {
                     ID = question.ID,
                     Text = question.Text
                 });
+            }
 
-            this.ViewData["Questions"] = new SelectList(QuestionList, "ID", "Text");
+            ViewBag.QuestionList = new SelectList(QuestionList, "ID", "Text");
+            ViewBag.results = questions;
+
             return View(mCQModels);
         }
 
