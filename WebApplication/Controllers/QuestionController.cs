@@ -54,6 +54,13 @@ namespace WebApplication.Controllers
             if (ModelState.IsValid)
             {
                 db.Questions.Add(questionModels);
+                for (int i = 0; i < 4; i++)
+                {
+                    OptionModels optionModels = new OptionModels();
+                    optionModels.QuestionID = questionModels.ID;
+                    optionModels.Text = "";
+                    db.Options.Add(optionModels);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -65,9 +72,31 @@ namespace WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult AjaxCreate(QuestionModels questionModels)
         {
-                db.Questions.Add(questionModels);
-                db.SaveChanges();
+            db.Questions.Add(questionModels);
+
+            OptionModels optionModels = new OptionModels();
+            optionModels.QuestionID = questionModels.ID;
+            optionModels.Text = "";
             
+            OptionModels optionModels2 = new OptionModels();
+            optionModels2.QuestionID = questionModels.ID;
+            optionModels2.Text = "";
+
+            OptionModels optionModels3 = new OptionModels();
+            optionModels3.QuestionID = questionModels.ID;
+            optionModels3.Text = "";
+
+            OptionModels optionModels4 = new OptionModels();
+            optionModels4.QuestionID = questionModels.ID;
+            optionModels4.Text = "";
+
+            db.Options.Add(optionModels);
+            db.Options.Add(optionModels2);
+            db.Options.Add(optionModels3);
+            db.Options.Add(optionModels4);
+
+            db.SaveChanges();
+
             return Json("Response from create");
         }
 

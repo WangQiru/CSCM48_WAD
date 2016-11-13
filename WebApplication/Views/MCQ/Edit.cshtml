@@ -86,38 +86,51 @@
                         int counter = 1;
                     }
 
-
-
                     @foreach (var question in Model.QuestionModelsList)
                     {
                         <tr class="@counter">
                             <td>
                                 Question @counter :<span id="@counter">@question.Text</span>
                                 @Html.TextBox("updateQuestion" + @counter, (string)@question.Text, new { @class = "form-control", @type = "hidden", @rowno = @counter })
-                            </td>
-                        </tr>
-                        <tr class="@counter">
-                            <td>
-                                @{
-                                    int optionCount = 1;
-                                    for (int i = 0; i < Model.QuestionModelsList[counter - 1].OptionsModelsList.Count; i += 2)
-                                    {
-                                        <span id="option-@optionCount">Option @optionCount : @Model.QuestionModelsList[counter - 1].OptionsModelsList[i].Text</span>
-                                        optionCount++;
-                                    }
-                                }
+                                <div class="modal fade" id="optionModal-@counter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="myModalLabel">Options for question @counter</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                @{
+                                                    int optionCount = 1;
+                                                    for (int i = 0; i < Model.QuestionModelsList[counter - 1].OptionsModelsList.Count; i += 2)
+                                                    {
+                                                        <label for="updateOption-@counter@optionCount" class ="control-label col-md-3">Option @optionCount</label>
+                                                            @Html.TextBox("updateOption-" + @counter + @optionCount, (string)@Model.QuestionModelsList[counter - 1].OptionsModelsList[i].Text, new { @class = "form-control", @rowno = @counter })
+                                                            optionCount++;
+                                                            <br />
+                                                            }
+                                                            }
+</div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-success">Update</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         <tr class="@counter">
                             <td>
                                 <a class="btn btn-sm btn-info updateQuestion" id="updateQuestion-@counter" rowno="@counter" value="@question.ID">Edit</a>
+                                <a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#optionModal-@counter">View Options</a>
                                 <a class="btn btn-sm btn-success updateQuestionSubmit" id="updateQuestionSubmit-@counter" rowno="@counter" value="@question.ID" style="display:none">Update</a>
                                 <a href="#" class="btn btn-sm btn-danger" title="Confirmation" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true" data-content='<a class="btn btn-sm btn-danger deleteQuestion" rowno="@counter" value="@question.ID">Yes</a><a class="btn btn-sm btn-success popoverClose pull-right" >No</a>'>Delete</a>
                                 <span class="text-danger questionModifyMessage" id="questionModifyMessage-@counter"></span>
                             </td>
                         </tr>
-                                        counter++;
-                                    }
+                                                        counter++;
+                                                    }
                 </tbody>
             </table>
             <br />
@@ -130,81 +143,7 @@
                 <br /><span id="newQuestionValidation" class="text-danger" style="display:none">Question is required</span>
             </div>
         </div>
-
     </div>
-
-    @*<div class="col-xs-10 col-sm-6 col-md-6 col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0">
-            <div class="form-horizontal">
-                <h4>Questions</h4>
-                <hr />
-                <style>
-                    .table-fixed tbody {
-                        height: 330px;
-                        overflow-y: auto;
-                    }
-
-                    .table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
-                        display: block;
-                    }
-
-                    .v-align {
-                        float: none;
-                        display: inline-block;
-                        vertical-align: middle;
-                    }
-                </style>
-                <table id="questionTable" class="table table-fixed header-fixed">
-                    <tbody id="questionTableBody">
-                        @{
-                            int counter = 1;
-                        }
-
-                        @foreach (var question in ViewBag.QuestionList)
-                        {
-                            <tr class="@counter">
-                                <td>
-                                    Question @counter :<span id="@counter">@question.QuestionModels.Text</span>
-                                    @Html.TextBox("updateQuestion" + @counter, (string)@question.QuestionModels.Text, new { @class = "form-control", @type = "hidden", @rowno = @counter })
-                                </td>
-                            </tr>
-                            <tr class="@counter">
-                                <td>
-
-                                    <span id="option1-@counter">@question.QuestionModels.Text</span>
-                                    <span id="option2-@counter">@question.QuestionModels.Text</span>
-                                    <span id="option3-@counter">@question.QuestionModels.Text</span>
-                                    <span id="option4-@counter">@question.QuestionModels.Text</span>
-
-                                </td>
-                            </tr>
-                            <tr class="@counter">
-                                <td>
-
-                                         <a href="/Question/Edit/@question.QuestionModels.ID" class="btn btn-sm btn-info" value="@question.QuestionModels.ID">Edit</a>
-
-                                    <a class="btn btn-sm btn-info updateQuestion" id="updateQuestion-@counter" rowno="@counter" value="@question.QuestionModels.ID">Edit</a>
-                                    <a class="btn btn-sm btn-success updateQuestionSubmit" id="updateQuestionSubmit-@counter" rowno="@counter" value="@question.QuestionModels.ID" style="display:none">Update</a>
-                                    <a href="#" class="btn btn-sm btn-danger" title="Confirmation" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true" data-content='<a class="btn btn-sm btn-danger deleteQuestion" rowno="@counter" value="@question.QuestionModels.ID">Yes</a><a class="btn btn-sm btn-success popoverClose pull-right" >No</a>'>Delete</a>
-                                    <span class="text-danger questionModifyMessage" id="questionModifyMessage-@counter"></span>
-                                </td>
-                            </tr>
-                            counter++;
-                        }
-                    </tbody>
-                </table>
-                <br />
-            </div>
-
-            <div class="col-md-10">
-                <div class="row newQuestion">
-                    @Html.TextBox("newQuestion", null, new { @class = "form-control valid v-align", placeholder = "Enter new question", data_val = "true", data_val_required = "Question is required" })
-                    <a href="#" id="newQuestionPopover" class="btn btn-success v-align">Add</a>
-                    <br /><span id="newQuestionValidation" class="text-danger" style="display:none">Question is required</span>
-                </div>
-            </div>
-
-        </div>*@
-
 </div>
 
 

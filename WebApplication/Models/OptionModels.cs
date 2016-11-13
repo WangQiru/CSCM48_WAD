@@ -10,7 +10,6 @@ namespace WebApplication.Models
         [ForeignKey("QuestionModels")]
         public virtual int QuestionID { get; set; }
         public virtual QuestionModels QuestionModels { get; set; }
-        [Required]
         public string Text { get; set; }
         public bool correct { get; set; }
     }

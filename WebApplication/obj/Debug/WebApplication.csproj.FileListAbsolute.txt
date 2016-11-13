@@ -142,3 +142,4 @@ D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.csproj.GenerateRes
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.dll
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.pdb
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.optionlist.resources
+D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.optionstextnullable.resources
