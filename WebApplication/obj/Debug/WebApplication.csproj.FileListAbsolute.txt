@@ -141,3 +141,4 @@ D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.questio
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.csproj.GenerateResource.Cache
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.dll
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.pdb
+D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.optionlist.resources

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,6 +13,7 @@ namespace WebApplication.Models
         public virtual MCQModels MCQModels { get; set; }
         [Required]
         public string Text { get; set; }
+        public List<OptionModels> OptionsModelsList { get; set; }
     }
 
 

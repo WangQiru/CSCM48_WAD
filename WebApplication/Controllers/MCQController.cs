@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication.Models;
+using WebApplication.ViewModels;
 
 namespace WebApplication.Controllers
 {
@@ -65,52 +66,41 @@ namespace WebApplication.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MCQModels mCQModels = db.MCQs.Find(id);
-            if (mCQModels == null)
+
+            QuestionOptionViewModel qQuestionOptionViewModel = new QuestionOptionViewModel();
+            qQuestionOptionViewModel.QuestionModelsList = new List<QuestionModels>();
+
+
+
+            qQuestionOptionViewModel.MCQModels = db.MCQs.Find(id);
+            if (qQuestionOptionViewModel.MCQModels == null)
             {
                 return HttpNotFound();
             }
 
 
-            var results = (from q in db.Questions.Where(u => u.MCQID == id).Select(u => new
-            {
-                ID = u.ID,
-                Text = u.Text
-            })
-                           from o in db.Options.Where(u => u.QuestionID == q.ID).Select(u => new
-                           {
-                               ID = u.ID,
-                               Text = u.Text
-                           })
-                           select new
-                           {
-                               questionID = q.ID,
-                               optionID = o.ID,
-                               optionText = o.Text
-                           }
-                           );
-
-
             var questions = db.Questions.Where(u => u.MCQID == id).Select(u => new
             {
-                ID = u.ID,
-                Text = u.Text
+                ID = u.ID
             }).ToList();
 
-            List<object> QuestionList = new List<object>();
+            int count = 0;
+
             foreach (var question in questions)
             {
-                QuestionList.Add(new
+                qQuestionOptionViewModel.QuestionModelsList.Add(db.Questions.Find(question.ID));
+                qQuestionOptionViewModel.QuestionModelsList[count].OptionsModelsList = new List<OptionModels>();
+                var options = db.Options.Where(u => u.QuestionID == question.ID);
+
+                foreach (var option in options)
                 {
-                    ID = question.ID,
-                    Text = question.Text
-                });
+                    OptionModels om = db.Options.Find(option.ID);
+                    qQuestionOptionViewModel.QuestionModelsList[count].OptionsModelsList.Add(om);
+                }
+                count++;
             }
 
-            ViewBag.QuestionList = new SelectList(QuestionList, "ID", "Text");
-            ViewBag.results = questions;
-
-            return View(mCQModels);
+            return View(qQuestionOptionViewModel);
         }
 
         // POST: MCQ/Edit/5
