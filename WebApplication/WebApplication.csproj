@@ -171,6 +171,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MCQController.cs" />
+    <Compile Include="Controllers\OptionController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -268,6 +269,11 @@
     <Content Include="Views\MCQ\Details.cshtml" />
     <Content Include="Views\MCQ\Edit.cshtml" />
     <Content Include="Views\MCQ\Index.cshtml" />
+    <Content Include="Views\Option\Create.cshtml" />
+    <Content Include="Views\Option\Delete.cshtml" />
+    <Content Include="Views\Option\Details.cshtml" />
+    <Content Include="Views\Option\Edit.cshtml" />
+    <Content Include="Views\Option\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

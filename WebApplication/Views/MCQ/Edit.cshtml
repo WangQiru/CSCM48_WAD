@@ -104,15 +104,17 @@
                                                     int optionCount = 1;
                                                     for (int i = 0; i < Model.QuestionModelsList[counter - 1].OptionsModelsList.Count; i += 2)
                                                     {
-                                                        <label for="updateOption-@counter@optionCount" class ="control-label col-md-3">Option @optionCount</label>
-                                                            @Html.TextBox("updateOption-" + @counter + @optionCount, (string)@Model.QuestionModelsList[counter - 1].OptionsModelsList[i].Text, new { @class = "form-control", @rowno = @counter })
-                                                            optionCount++;
-                                                            <br />
-                                                            }
-                                                            }
-</div>
+                                                        <label for="Option-@Model.QuestionModelsList[counter - 1].OptionsModelsList[i].ID" class="control-label col-md-3">Option @optionCount</label>
+                                                        @Html.TextBox("Option-" + @Model.QuestionModelsList[counter - 1].OptionsModelsList[i].ID, (string)@Model.QuestionModelsList[counter - 1].OptionsModelsList[i].Text, new { @class = "form-control optionInput", @optionID = @Model.QuestionModelsList[counter - 1].OptionsModelsList[i].ID, @optionCount = @optionCount })
+                                                        optionCount++;
+                                                        <br />
+
+                                                    }
+                                                }
+                                            </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-success">Update</button>
+                                                <span class="text-danger optionModifyMessage" id="optionModifyMessage-@counter"></span>
+                                                <button type="button" class="btn btn-success updateOptionSubmit" rowno="@counter" id="updateOption-@counter">Update</button>
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                             </div>
                                         </div>
@@ -123,8 +125,8 @@
                         <tr class="@counter">
                             <td>
                                 <a class="btn btn-sm btn-info updateQuestion" id="updateQuestion-@counter" rowno="@counter" value="@question.ID">Edit</a>
-                                <a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#optionModal-@counter">View Options</a>
                                 <a class="btn btn-sm btn-success updateQuestionSubmit" id="updateQuestionSubmit-@counter" rowno="@counter" value="@question.ID" style="display:none">Update</a>
+                                <a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#optionModal-@counter">View Options</a>
                                 <a href="#" class="btn btn-sm btn-danger" title="Confirmation" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true" data-content='<a class="btn btn-sm btn-danger deleteQuestion" rowno="@counter" value="@question.ID">Yes</a><a class="btn btn-sm btn-success popoverClose pull-right" >No</a>'>Delete</a>
                                 <span class="text-danger questionModifyMessage" id="questionModifyMessage-@counter"></span>
                             </td>
@@ -157,7 +159,7 @@
         var counter=@counter;
         $(function () {
             $('[data-toggle="popover"]').popover();
-            function QuestionModels(){
+            function OptionModels(){
                 var self= this;
                 self.MCQID = @Html.Raw(Json.Encode(Model.MCQModels.ID));
                 self.Text = $('#newQuestion').val();
@@ -272,6 +274,140 @@
             }
             else if(type=="nochange"){
                 $('#questionModifyMessage-'+rowno).text("No change was made.").show().fadeOut(2000);
+            }
+        }
+
+    </script>
+
+    <script>
+        var counter=@counter;
+        $(function () {
+            var one = false;
+            var two = false;
+            var three = false;
+            var four = false;
+            var changed = false;
+            var modal;
+
+            function OptionModels(optionID,optionText,correct){
+                var self= this;
+                self.ID = optionID;
+                self.Text = optionText;
+                self.correct = correct;
+            }
+
+
+
+            $('.updateOptionSubmit').click(function(){
+                var button=$(this);
+                var rowno=$(this).attr('rowno');
+                modal=$('#optionModal-'+rowno);
+
+                modal.on("click", ".popoverClose", function() {
+                    $('#updateOption-'+rowno).popover('disable').popover("hide");
+                });
+
+                if(modal.find('.optionInput[optioncount="1"]').val() != modal.find('.optionInput[optioncount="1"]').attr('value'))
+                {
+                    one = true;
+                }
+
+                if(modal.find('.optionInput[optioncount="2"]').val() != modal.find('.optionInput[optioncount="2"]').attr('value'))
+                {
+                    two = true;
+                }
+
+                if(modal.find('.optionInput[optioncount="3"]').val() != modal.find('.optionInput[optioncount="3"]').attr('value'))
+                {
+                    three = true;
+                }
+
+                if(modal.find('.optionInput[optioncount="4"]').val() != modal.find('.optionInput[optioncount="4"]').attr('value'))
+                {
+                    four = true;
+                }
+
+                if(one || two || three || four)
+                    changed = true;
+
+                if(changed){
+                    $('#updateOption-'+rowno).popover({
+                        placement:'right',
+                        trigger:'focus',
+                        html:true,
+                        title:"Confirmation",
+                        content:'<a class="btn btn-sm btn-danger submitOptions" id="submitOptions" type="submit">Yes</a><a class="btn btn-success btn-sm popoverClose pull-right" >No</a>'
+                    });
+                    $('#updateOption-'+rowno).popover('enable').popover('show');
+                }
+                else{
+                    OptionModified("nochange",rowno);
+                }
+            });
+
+
+            $('.modal').on("click", "#submitOptions", function() {
+                if(one){
+                    var option=modal.find('.optionInput[optioncount="1"]');
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("AjaxUpdate", "Option")",
+                        data: {text:option.val(),id:option.attr('optionid'),correct:false,__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()},
+                        success: function (res) {
+                            one == false;
+                            option.attr('value',option.val());
+                        }
+                    });
+                }
+
+                if(two){
+                    var option=modal.find('.optionInput[optioncount="2"]');
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("AjaxUpdate", "Option")",
+                        data: {text:option.val(),id:option.attr('optionid'),correct:false,__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()},
+                        success: function (res) {
+                            two == false;
+                            option.attr('value',option.val());
+                        }
+                    });
+                }
+
+                if(three){
+                    var option=modal.find('.optionInput[optioncount="3"]');
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("AjaxUpdate", "Option")",
+                        data: {text:option.val(),id:option.attr('optionid'),correct:false,__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()},
+                        success: function (res) {
+                            three == false;
+                            option.attr('value',option.val());
+                        }
+                    });
+                }
+
+                if(four){
+                    var option=modal.find('.optionInput[optioncount="4"]');
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("AjaxUpdate", "Option")",
+                        data: {text:option.val(),id:option.attr('optionid'),correct:false,__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()},
+                        success: function (res) {
+                            four == false;
+                            option.attr('value',option.val());
+                        }
+                    });
+                }
+            });
+        });
+
+        function OptionModified(type,id){
+            $('.optionModifyMessage').hide();
+            if(type=="update"){
+                $('#optionModifyMessage-'+id).text("Option updated successfully.").show().fadeOut(2000);
+            }
+            else if(type=="nochange"){
+                $('#optionModifyMessage-'+id).text("No change was made.").show().fadeOut(2000);
             }
         }
 
