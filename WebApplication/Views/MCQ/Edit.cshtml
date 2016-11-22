@@ -92,7 +92,7 @@
                             <td>
                                 Question @counter :<span id="@counter">@question.Text</span>
                                 @Html.TextBox("updateQuestion" + @counter, (string)@question.Text, new { @class = "form-control", @type = "hidden", @rowno = @counter })
-                                <div class="modal fade" id="optionModal-@counter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal fade" id="optionModal-@counter" tabindex="-1" role="dialog" aria-labelledby="optionModal">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -100,15 +100,16 @@
                                                 <h4 class="modal-title" id="myModalLabel">Options for question @counter</h4>
                                             </div>
                                             <div class="modal-body">
+                                                <p>Check correct option</p>
+
                                                 @{
                                                     int optionCount = 1;
                                                     for (int i = 0; i < Model.QuestionModelsList[counter - 1].OptionsModelsList.Count; i += 2)
                                                     {
-                                                        <label for="Option-@Model.QuestionModelsList[counter - 1].OptionsModelsList[i].ID" class="control-label col-md-3">Option @optionCount</label>
+                                                        <label for="Option-@Model.QuestionModelsList[counter - 1].OptionsModelsList[i].ID" class="control-label col-md-3">@Html.CheckBoxFor(model => model.QuestionModelsList[counter - 1].OptionsModelsList[i].correct,new { @class = "optionCorrectCheckbox", @id = "optionCorrectCheckbox-" + @Model.QuestionModelsList[counter - 1].OptionsModelsList[i].ID, @optionCount = @optionCount }) Option @optionCount</label>
                                                         @Html.TextBox("Option-" + @Model.QuestionModelsList[counter - 1].OptionsModelsList[i].ID, (string)@Model.QuestionModelsList[counter - 1].OptionsModelsList[i].Text, new { @class = "form-control optionInput", @optionID = @Model.QuestionModelsList[counter - 1].OptionsModelsList[i].ID, @optionCount = @optionCount })
                                                         optionCount++;
                                                         <br />
-
                                                     }
                                                 }
                                             </div>
@@ -280,23 +281,19 @@
     </script>
 
     <script>
-        var counter=@counter;
         $(function () {
-            var one = false;
-            var two = false;
-            var three = false;
-            var four = false;
-            var changed = false;
+            var one = two = three = four = changed = false;
+
             var modal;
 
-            function OptionModels(optionID,optionText,correct){
-                var self= this;
-                self.ID = optionID;
-                self.Text = optionText;
-                self.correct = correct;
-            }
 
-
+            
+            $('.optionCorrectCheckbox').click(function(){
+                $('.optionCorrectCheckbox').prop('checked', false);
+                $(this).prop('checked', true);
+                changed = true;
+                one = two = three = four=true;
+            });
 
             $('.updateOptionSubmit').click(function(){
                 var button=$(this);
@@ -352,10 +349,11 @@
                     $.ajax({
                         type: "POST",
                         url: "@Url.Action("AjaxUpdate", "Option")",
-                        data: {text:option.val(),id:option.attr('optionid'),correct:false,__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()},
+                        data: {text:option.val(),id:option.attr('optionid'),correct:$('#optionCorrectCheckbox-'+option.attr('optionid')).prop('checked'),__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()},
                         success: function (res) {
-                            one == false;
+                            one = false;
                             option.attr('value',option.val());
+                            OptionModified("update",1);
                         }
                     });
                 }
@@ -365,10 +363,11 @@
                     $.ajax({
                         type: "POST",
                         url: "@Url.Action("AjaxUpdate", "Option")",
-                        data: {text:option.val(),id:option.attr('optionid'),correct:false,__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()},
+                        data: {text:option.val(),id:option.attr('optionid'),correct:$('#optionCorrectCheckbox-'+option.attr('optionid')).prop('checked'),__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()},
                         success: function (res) {
-                            two == false;
+                            two = false;
                             option.attr('value',option.val());
+                            OptionModified("update",1);
                         }
                     });
                 }
@@ -378,40 +377,51 @@
                     $.ajax({
                         type: "POST",
                         url: "@Url.Action("AjaxUpdate", "Option")",
-                        data: {text:option.val(),id:option.attr('optionid'),correct:false,__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()},
+                        data: {text:option.val(),id:option.attr('optionid'),correct:$('#optionCorrectCheckbox-'+option.attr('optionid')).prop('checked'),__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()},
                         success: function (res) {
-                            three == false;
+                            three = false;
                             option.attr('value',option.val());
+                            OptionModified("update",1);
                         }
                     });
                 }
 
                 if(four){
                     var option=modal.find('.optionInput[optioncount="4"]');
+                    console.log($('#optionCorrectCheckbox-'+option.attr('optionid')).prop('checked'));
                     $.ajax({
                         type: "POST",
                         url: "@Url.Action("AjaxUpdate", "Option")",
-                        data: {text:option.val(),id:option.attr('optionid'),correct:false,__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()},
+                        data: {text:option.val(),id:option.attr('optionid'),correct:$('#optionCorrectCheckbox-'+option.attr('optionid')).prop('checked'),__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()},
                         success: function (res) {
-                            four == false;
+                            four = false;
                             option.attr('value',option.val());
+                            OptionModified("update",1);
                         }
                     });
                 }
+
+
             });
+
+            
+
+            function OptionModified(type,id){
+                $('.optionModifyMessage').hide();
+                if(type=="update"){
+                    if(!one && !two && !three && !four){
+                        $('.optionModifyMessage').text("Option updated successfully.").show().fadeOut(2000);
+                        $('.updateOptionSubmit').popover('disable').popover("hide");
+                        changed = false;
+                    }
+                }
+                else if(type=="nochange"){
+                    $('#optionModifyMessage-'+id).text("No change was made.").show().fadeOut(2000);
+                }
+            }
         });
 
-        function OptionModified(type,id){
-            $('.optionModifyMessage').hide();
-            if(type=="update"){
-                $('#optionModifyMessage-'+id).text("Option updated successfully.").show().fadeOut(2000);
-            }
-            else if(type=="nochange"){
-                $('#optionModifyMessage-'+id).text("No change was made.").show().fadeOut(2000);
-            }
-        }
+
 
     </script>
 }
-
-
