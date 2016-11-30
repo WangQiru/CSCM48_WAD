@@ -46,23 +46,23 @@ namespace WebApplication
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
             // Uncomment the following lines to enable logging in with third party login providers
-            //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "",
-            //    clientSecret: "");
+            app.UseMicrosoftAccountAuthentication(
+                clientId: "4cd331c0-90f3-450f-9469-864f5cf69dd4",
+                clientSecret: "gcqK3ZHnj4pDtY8cQv0Y8f3");
 
-            //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
+            app.UseTwitterAuthentication(
+               consumerKey: "Vl2gnnh5hUn6houoiHmpulNqi",
+               consumerSecret: "nowP1tfvwLjDdVRYMC0YqLCmBhvLfG6RL5T8kbBh0veVezLPtz");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "251745348576037",
+               appSecret: "da260a592c39cdeeed7e4c0de04be027");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "1090508238142-638jqb40i47ncip4q50s0qev0423t0mq.apps.googleusercontent.com",
+                ClientSecret = "QF0llLbrGXAqlHAsrx9GzHz5"
+            });
         }
     }
 }

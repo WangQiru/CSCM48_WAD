@@ -135,7 +135,6 @@ D:\Git\WebApplication\WebApplication\bin\Microsoft.Owin.Security.OAuth.xml
 D:\Git\WebApplication\WebApplication\bin\Microsoft.Owin.Security.Google.xml
 D:\Git\WebApplication\WebApplication\bin\Microsoft.Owin.Security.Twitter.xml
 D:\Git\WebApplication\WebApplication\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.csprojResolveAssemblyReference.cache
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.question.resources
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.question1.resources
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.csproj.GenerateResource.Cache
