@@ -33,10 +33,12 @@ namespace WebApplication
             if (exception.GetType() == typeof(HttpException))
             {
                 routeData.Values.Add("statusCode", ((HttpException)exception).GetHttpCode());
+                routeData.Values.Add("statusMsg", ((HttpException)exception).GetHtmlErrorMessage());  
             }
             else
             {
                 routeData.Values.Add("statusCode", 500);
+                routeData.Values.Add("statusMsg", "Something went haywire, maybe try again later?");
             }
 
             Response.TrySkipIisCustomErrors = true;

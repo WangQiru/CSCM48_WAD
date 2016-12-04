@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication.Models;
@@ -16,6 +17,7 @@ namespace WebApplication.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Question
+        [ClaimsAuthorize(ClaimTypes.Role, "Lecturer")]
         public ActionResult Index()
         {
             var questions = db.Questions.Include(q => q.MCQModels);
@@ -38,6 +40,7 @@ namespace WebApplication.Controllers
         }
 
         // GET: Question/Create
+        [ClaimsAuthorize(ClaimTypes.Role, "Lecturer")]
         public ActionResult Create()
         {
             ViewBag.MCQID = new SelectList(db.MCQs, "ID", "Title");
@@ -49,6 +52,7 @@ namespace WebApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ClaimsAuthorize(ClaimTypes.Role, "Lecturer")]
         public ActionResult Create([Bind(Include = "ID,MCQID,Text")] QuestionModels questionModels)
         {
             if (ModelState.IsValid)
@@ -70,6 +74,7 @@ namespace WebApplication.Controllers
         }
 
         [ValidateAntiForgeryToken]
+        [ClaimsAuthorize(ClaimTypes.Role, "Lecturer")]
         public JsonResult AjaxCreate(QuestionModels questionModels)
         {
             db.Questions.Add(questionModels);
@@ -101,6 +106,7 @@ namespace WebApplication.Controllers
         }
 
         // GET: Question/Edit/5
+        [ClaimsAuthorize(ClaimTypes.Role, "Lecturer")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -121,6 +127,7 @@ namespace WebApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ClaimsAuthorize(ClaimTypes.Role, "Lecturer")]
         public ActionResult Edit([Bind(Include = "ID,MCQID,Text")] QuestionModels questionModels)
         {
             if (ModelState.IsValid)
@@ -134,6 +141,7 @@ namespace WebApplication.Controllers
         }
 
         [ValidateAntiForgeryToken]
+        [ClaimsAuthorize(ClaimTypes.Role, "Lecturer")]
         public JsonResult AjaxUpdate(string text, string id)
         {
             QuestionModels questionModels = db.Questions.Find(int.Parse(id));
@@ -145,6 +153,7 @@ namespace WebApplication.Controllers
         }
 
         // GET: Question/Delete/5
+        [ClaimsAuthorize(ClaimTypes.Role, "Lecturer")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -162,6 +171,7 @@ namespace WebApplication.Controllers
         // POST: Question/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [ClaimsAuthorize(ClaimTypes.Role, "Lecturer")]
         public ActionResult DeleteConfirmed(int id)
         {
             QuestionModels questionModels = db.Questions.Find(id);
@@ -171,6 +181,7 @@ namespace WebApplication.Controllers
         }
 
         [ValidateAntiForgeryToken]
+        [ClaimsAuthorize(ClaimTypes.Role, "Lecturer")]
         public JsonResult AjaxDelete(string id)
         {
             QuestionModels questionModels = db.Questions.Find(int.Parse(id));

@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication.Models;
@@ -37,6 +38,7 @@ namespace WebApplication.Controllers
         }
 
         // GET: Option/Create
+        [ClaimsAuthorize(ClaimTypes.Role, "Lecturer")]
         public ActionResult Create()
         {
             ViewBag.QuestionID = new SelectList(db.Questions, "ID", "Text");
@@ -48,6 +50,7 @@ namespace WebApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ClaimsAuthorize(ClaimTypes.Role, "Lecturer")]
         public ActionResult Create([Bind(Include = "ID,QuestionID,Text,correct")] OptionModels optionModels)
         {
             if (ModelState.IsValid)
@@ -62,6 +65,7 @@ namespace WebApplication.Controllers
         }
 
         // GET: Option/Edit/5
+        [ClaimsAuthorize(ClaimTypes.Role, "Lecturer")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -82,6 +86,7 @@ namespace WebApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ClaimsAuthorize(ClaimTypes.Role, "Lecturer")]
         public ActionResult Edit([Bind(Include = "ID,QuestionID,Text,correct")] OptionModels optionModels)
         {
             if (ModelState.IsValid)
@@ -96,6 +101,7 @@ namespace WebApplication.Controllers
 
 
         [ValidateAntiForgeryToken]
+        [ClaimsAuthorize(ClaimTypes.Role, "Lecturer")]
         public JsonResult AjaxUpdate(string text, string id, bool correct)
         {
             OptionModels optionModels = db.Options.Find(int.Parse(id));
@@ -108,6 +114,7 @@ namespace WebApplication.Controllers
         }
 
         // GET: Option/Delete/5
+        [ClaimsAuthorize(ClaimTypes.Role, "Lecturer")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -123,6 +130,7 @@ namespace WebApplication.Controllers
         }
 
         // POST: Option/Delete/5
+        [ClaimsAuthorize(ClaimTypes.Role, "Lecturer")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
