@@ -142,3 +142,10 @@ D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.dll
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.pdb
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.optionlist.resources
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.optionstextnullable.resources
+D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.LecturerNo.resources
+D:\Git\WebApplication\WebApplication\bin\System.Net.Http.Formatting.dll
+D:\Git\WebApplication\WebApplication\bin\System.Web.Http.dll
+D:\Git\WebApplication\WebApplication\bin\System.Web.Http.WebHost.dll
+D:\Git\WebApplication\WebApplication\bin\System.Net.Http.Formatting.xml
+D:\Git\WebApplication\WebApplication\bin\System.Web.Http.xml
+D:\Git\WebApplication\WebApplication\bin\System.Web.Http.WebHost.xml

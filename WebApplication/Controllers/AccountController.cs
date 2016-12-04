@@ -9,6 +9,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using WebApplication.Models;
+using System.Collections.Generic;
+using System.Security;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace WebApplication.Controllers
 {

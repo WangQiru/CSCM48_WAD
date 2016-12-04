@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication.Models;
@@ -16,6 +17,7 @@ namespace WebApplication.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: MCQ
+        [ClaimsAuthorize(ClaimTypes.Role, "Lecturer")]
         public ActionResult Index()
         {
             return View(db.MCQs.ToList());

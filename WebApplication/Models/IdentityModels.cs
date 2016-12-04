@@ -14,12 +14,15 @@ namespace WebApplication.Models
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            if(this.LectureNo>0)
+            userIdentity.AddClaim(new Claim(ClaimTypes.Role, "Lecturer"));
             // Add custom user claims here
             return userIdentity;
         }
 
         public string Name { get; set; }
         public int StudentNo { get; set; }
+        public int LectureNo { get; set; }
     }
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
