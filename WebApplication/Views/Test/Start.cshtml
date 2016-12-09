@@ -1,66 +1,177 @@
-﻿@model WebApplication.Models.MCQModels
+﻿@model WebApplication.ViewModels.QuestionOptionViewModel
 
 @{
     ViewBag.Title = "Start";
 }
 
-<h2>Start</h2>
+<h1>@Model.MCQModels.Title</h1>
 
+@Html.AntiForgeryToken()
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>MCQModels</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ID)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+<div class="row">
+    <div class="col-lg-10 col-lg-push-1">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                @Model.MCQModels.Title
             </div>
-        </div>
+            @{
+                int counter = 1;
+                int counter2 = 1;
+                int max = Model.QuestionModelsList.Count();
+                string str = "active";
+            }
+            <style>
+                input[type='radio'] {
+                    transform: scale(1.5);
+                    -moz-transform: scale(1.5);
+                    -ms-transform: scale(1.5);
+                    -webkit-transform: scale(1.5);
+                    -o-transform: scale(1.5);
+                }
+            </style>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <!-- Nav tabs -->
+                <ul class="nav nav-pills">
+                    @foreach (var question in Model.QuestionModelsList)
+                    {
+                        if (counter2 == 1)
+                        {
+                            str = "active";
+                        }
+                        else
+                        {
+                            str = "";
+                        }
+                        <li class="@str">
+                            <a href="#pills-@counter2" data-toggle="tab" aria-expanded="false">Question @counter2</a>
+                        </li>
+                        counter2++;
+                    }
+                </ul>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ReleaseDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ReleaseDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ReleaseDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    @foreach (var question in Model.QuestionModelsList)
+                    {
+                        if (counter == 1)
+                        {
+                            str = "tab-pane fade in active";
+                        }
+                        else
+                        {
+                            str = "tab-pane fade";
+                        }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                        <div class="@str" id="pills-@counter">
+                            <h1>@question.Text</h1>
+                            <hr />
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    @for (int i = 0; i < Model.QuestionModelsList[counter - 1].OptionsModelsList.Count; i += 2)
+                                    {
+                                        <div class="col-lg-3 col-md-3 col-sm-3">
+                                            @if (i == 0)
+                                            {
+                                                <h2><span id="optionA-@counter" qno="@counter"><strong>A </strong></span></h2>
+                                            }
+                                            @if (i == 2)
+                                            {
+                                                <h2><span id="optionB-@counter" qno="@counter"><strong>B </strong></span></h2>
+                                            }
+                                            @if (i == 4)
+                                            {
+                                                <h2><span id="optionC-@counter" qno="@counter"><strong>C </strong></span></h2>
+                                            }
+                                            @if (i == 6)
+                                            {
+                                                <h2><span id="optionD-@counter" qno="@counter"><strong>D </strong></span></h2>
+                                            }
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                                            @Model.QuestionModelsList[counter - 1].OptionsModelsList[i].Text
+
+                                            <br /><br />
+                                        </div>
+                                    }
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 pull-right">
+                                        <label>Answer:&nbsp;&nbsp;</label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optionRadio-@counter" id="optionRadioA-@counter" qno="@counter" value="A">A
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optionRadio-@counter" id="optionRadioB-@counter" qno="@counter" value="B">B
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optionRadio-@counter" id="optionRadioC-@counter" qno="@counter" value="C">C
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optionRadio-@counter" id="optionRadioD-@counter" qno="@counter" value="D">D
+                                        </label>
+
+                                    </div>
+                                </div>
+
+                                <br />
+                                <hr />
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        @if (counter != 1)
+                                        {
+                                            <a class="btn btn-primary previousButton">Previous</a>
+                                        }
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        @if (counter != max)
+                                        {
+                                            <a class="btn btn-primary pull-right nextButton">Next</a>
+                                        }
+                                        else
+                                        {
+                                            <a class="btn btn-danger pull-right nextButton" id="submit">Submit</a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        counter++;
+                    }
+                </div>
             </div>
+            <!-- /.panel-body -->
         </div>
+        <!-- /.panel -->
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(function () {
+            $('.nextButton').click(function () {
+                $('.nav-pills > .active').next('li').find('a').trigger('click');
+            });
+            $('.previousButton').click(function () {
+                $('.nav-pills > .active').prev('li').find('a').trigger('click');
+            });
+
+            $('input[type="radio"]').on("click", function () {
+                var qno = $(this).attr('qno');
+                var option = $(this).val();
+                var str = option + '-' + qno;
+                $('span[qno=' + qno + ']').removeClass("text-danger");
+                $('#option' + str).addClass("text-danger");
+            });
+
+            $('#submit').click(function () {
+                $('.nav-pills > .active').next('li').find('a').trigger('click');
+            });
+        });
+    </script>
 }

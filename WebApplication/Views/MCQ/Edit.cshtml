@@ -90,7 +90,7 @@
                                                     int optionCount = 1;
                                                     for (int i = 0; i < Model.QuestionModelsList[counter - 1].OptionsModelsList.Count; i += 2)
                                                     {
-                                                        <label for="Option-@Model.QuestionModelsList[counter - 1].OptionsModelsList[i].ID" class="control-label col-md-3">@Html.CheckBoxFor(model => model.QuestionModelsList[counter - 1].OptionsModelsList[i].correct,new { @class = "optionCorrectCheckbox", @id = "optionCorrectCheckbox-" + @Model.QuestionModelsList[counter - 1].OptionsModelsList[i].ID, @optionCount = @optionCount }) Option @optionCount</label>
+                                                        <label for="Option-@Model.QuestionModelsList[counter - 1].OptionsModelsList[i].ID" class="control-label col-md-3">@Html.CheckBoxFor(model => model.QuestionModelsList[counter - 1].OptionsModelsList[i].correct, new { @class = "optionCorrectCheckbox", @id = "optionCorrectCheckbox-" + @Model.QuestionModelsList[counter - 1].OptionsModelsList[i].ID, @optionCount = @optionCount }) Option @optionCount</label>
                                                         @Html.TextBox("Option-" + @Model.QuestionModelsList[counter - 1].OptionsModelsList[i].ID, (string)@Model.QuestionModelsList[counter - 1].OptionsModelsList[i].Text, new { @class = "form-control optionInput", @optionID = @Model.QuestionModelsList[counter - 1].OptionsModelsList[i].ID, @optionCount = @optionCount })
                                                         optionCount++;
                                                         <br />
@@ -126,7 +126,7 @@
         <div class="col-md-10">
             <div class="row newQuestion">
                 @Html.TextBox("newQuestion", null, new { @class = "form-control valid v-align", placeholder = "Enter new question", data_val = "true", data_val_required = "Question is required" })
-                <a href="#" id="newQuestionPopover" class="btn btn-success v-align">Add</a>
+                <a id="newQuestionPopover" class="btn btn-success v-align">Add</a>
                 <br /><span id="newQuestionValidation" class="text-danger" style="display:none">Question is required</span>
             </div>
         </div>
@@ -145,6 +145,12 @@
         $(function () {
             $('[data-toggle="popover"]').popover();
             function OptionModels(){
+                var self= this;
+                self.MCQID = @Html.Raw(Json.Encode(Model.MCQModels.ID));
+                self.Text = $('#newQuestion').val();
+            }
+
+            function QuestionModels(){
                 var self= this;
                 self.MCQID = @Html.Raw(Json.Encode(Model.MCQModels.ID));
                 self.Text = $('#newQuestion').val();
@@ -173,6 +179,15 @@
 
 
             $('#newQuestionPopover').click(function(){
+
+                $('#newQuestionPopover').popover({
+                    placement:'right',
+                    trigger:'focus',
+                    html:true,
+                    title:"Confirmation",
+                    content:'<a class="btn btn-sm btn-danger submitNewQuestion" id="submitNewQuestion" type="submit">Yes</a><a class="btn btn-success btn-sm popoverClose pull-right" >No</a>'
+                });
+
                 if($('#newQuestion').val()==""){
                     $('#newQuestionValidation').show();
                     $('#newQuestion').focus();
@@ -180,13 +195,6 @@
                 }
                 else{
                     $('#newQuestionValidation').hide();
-                    $('#newQuestionPopover').popover({
-                        placement:'right',
-                        trigger:'focus',
-                        html:true,
-                        title:"Confirmation",
-                        content:'<a class="btn btn-sm btn-danger submitNewQuestion" id="submitNewQuestion" type="submit">Yes</a><a class="btn btn-success btn-sm popoverClose pull-right" >No</a>'
-                    });
                     $('#newQuestionPopover').popover('enable').popover('show');
                 }
 
@@ -200,7 +208,7 @@
                     url: "@Url.Action("AjaxCreate", "Question")",
                     data: {questionModels,__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()},
                     success: function (res) {
-                        $("#questionTable").find('tbody').append($('<tr>').append($('<td>').text('Question ' + counter))).append($('<tr>').append($('<td>').text($('#newQuestion').val()))).append($('<tr>').append($('<td>').text("Refresh to edit or delete.")));
+                        $("#questionTable").find('tbody').append($('<tr>').append($('<td>').text('Question ' + counter))).append($('<tr>').append($('<td>').text($('#newQuestion').val()))).append($('<tr>').append($('<td>').text("Refresh to edit or delete.(This is due to tight deadline, I could've done this dynamically without refresh by using Ajax, with a tedious loop(logic) )")));
                         counter++;
                         $('#questionTableBody').animate({scrollTop: 1E10}, 1000);
                         $('#newQuestion').val("");
@@ -271,7 +279,7 @@
             var modal;
 
 
-            
+
             $('.optionCorrectCheckbox').click(function(){
                 $('.optionCorrectCheckbox').prop('checked', false);
                 $(this).prop('checked', true);
@@ -384,12 +392,8 @@
                         }
                     });
                 }
-
-
             });
-
             
-
             function OptionModified(type,id){
                 $('.optionModifyMessage').hide();
                 if(type=="update"){

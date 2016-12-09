@@ -188,6 +188,7 @@
     <Compile Include="Controllers\MCQController.cs" />
     <Compile Include="Controllers\OptionController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
+    <Compile Include="Controllers\ResponseController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
@@ -212,6 +213,10 @@
     <Compile Include="Migrations\201612012053355_LecturerNo.cs" />
     <Compile Include="Migrations\201612012053355_LecturerNo.Designer.cs">
       <DependentUpon>201612012053355_LecturerNo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612090320551_Response.cs" />
+    <Compile Include="Migrations\201612090320551_Response.Designer.cs">
+      <DependentUpon>201612090320551_Response.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -258,6 +263,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\site.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -316,6 +322,9 @@
     <Content Include="Views\Test\Edit.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Test\Start.cshtml" />
+    <Content Include="Views\Response\Create.cshtml" />
+    <Content Include="Views\Response\Details.cshtml" />
+    <Content Include="Views\Response\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -344,6 +353,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612012053355_LecturerNo.resx">
       <DependentUpon>201612012053355_LecturerNo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612090320551_Response.resx">
+      <DependentUpon>201612090320551_Response.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

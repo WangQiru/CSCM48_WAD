@@ -21,6 +21,7 @@ namespace WebApplication
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
+                      "~/Scripts/site.js",
                       "~/Scripts/toastr.js",
                       "~/Scripts/respond.js"));
 

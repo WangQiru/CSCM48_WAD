@@ -50,20 +50,46 @@ namespace WebApplication.Controllers
         }
 
 
-        // GET: Test/Edit/5
+        // GET: Test/Start/5
         public ActionResult Start(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MCQModels mCQModels = db.MCQs.Find(id);
-            if (mCQModels == null)
+            QuestionOptionViewModel qQuestionOptionViewModel = new QuestionOptionViewModel();
+            qQuestionOptionViewModel.QuestionModelsList = new List<QuestionModels>();
+
+            qQuestionOptionViewModel.MCQModels = db.MCQs.Find(id);
+            if (qQuestionOptionViewModel.MCQModels == null)
             {
                 return HttpNotFound();
             }
-            return View(mCQModels);
+
+            var questions = db.Questions.Where(u => u.MCQID == id).Select(u => new
+            {
+                ID = u.ID
+            }).ToList();
+
+            int count = 0;
+
+            foreach (var question in questions)
+            {
+                qQuestionOptionViewModel.QuestionModelsList.Add(db.Questions.Find(question.ID));
+                qQuestionOptionViewModel.QuestionModelsList[count].OptionsModelsList = new List<OptionModels>();
+                var options = db.Options.Where(u => u.QuestionID == question.ID);
+
+                foreach (var option in options)
+                {
+                    OptionModels om = db.Options.Find(option.ID);
+                    qQuestionOptionViewModel.QuestionModelsList[count].OptionsModelsList.Add(om);
+                }
+                count++;
+            }
+
+            return View(qQuestionOptionViewModel);
         }
+    
 
         // POST: Test/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

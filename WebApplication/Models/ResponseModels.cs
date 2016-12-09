@@ -13,6 +13,9 @@ namespace WebApplication.Models
         [ForeignKey("OptionModels")]
         public virtual int Option { get; set; }
         public virtual OptionModels OptionModels { get; set; }
+        [ForeignKey("QuestionModels")]
+        public virtual int QuestionID { get; set; }
+        public virtual OptionModels QuestionModels { get; set; }
         [ForeignKey("ApplicationUser")]
         public string UserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }

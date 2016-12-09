@@ -24,9 +24,14 @@ textarea {
 }
 
 .btn {
-    border-radius: 15px;
+    border-radius: 4px;
 }
 
+.center-block {  
+  display: block;  
+  margin-right: auto;  
+  margin-left: auto;  
+} 
 
 .table-fixed tbody {
     height: 330px;

@@ -1,0 +1,50 @@
+﻿@model WebApplication.Models.ResponseModels
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ResponseModels</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationUser.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationUser.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MCQModels.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MCQModels.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OptionModels.Text)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OptionModels.Text)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QuestionModels.Text)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QuestionModels.Text)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

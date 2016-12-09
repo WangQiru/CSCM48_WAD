@@ -74,14 +74,11 @@ namespace WebApplication.Controllers
             QuestionOptionViewModel qQuestionOptionViewModel = new QuestionOptionViewModel();
             qQuestionOptionViewModel.QuestionModelsList = new List<QuestionModels>();
 
-
-
             qQuestionOptionViewModel.MCQModels = db.MCQs.Find(id);
             if (qQuestionOptionViewModel.MCQModels == null)
             {
                 return HttpNotFound();
             }
-
 
             var questions = db.Questions.Where(u => u.MCQID == id).Select(u => new
             {
