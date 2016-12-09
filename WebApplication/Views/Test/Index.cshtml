@@ -6,65 +6,7 @@
 }
 
 <h2>Test List</h2>
-<style>
-    .panel-blue {
-  border-color: #337ab7;
-}
-.panel-blue > .panel-heading {
-  border-color: #337ab7;
-  color: white;
-  background-color: #337ab7;
-}
-.panel-blue > a {
-  color: #337ab7;
-}
-.panel-blue > a:hover {
-  color: #23527c;
-}
-.panel-green {
-  border-color: #5cb85c;
-}
-.panel-green > .panel-heading {
-  border-color: #5cb85c;
-  color: white;
-  background-color: #5cb85c;
-}
-.panel-green > a {
-  color: #5cb85c;
-}
-.panel-green > a:hover {
-  color: #3d8b3d;
-}
-.panel-red {
-  border-color: #d9534f;
-}
-.panel-red > .panel-heading {
-  border-color: #d9534f;
-  color: white;
-  background-color: #d9534f;
-}
-.panel-red > a {
-  color: #d9534f;
-}
-.panel-red > a:hover {
-  color: #b52b27;
-}
-.panel-yellow {
-  border-color: #f0ad4e;
-}
-.panel-yellow > .panel-heading {
-  border-color: #f0ad4e;
-  color: white;
-  background-color: #f0ad4e;
-}
-.panel-yellow > a {
-  color: #f0ad4e;
-}
-.panel-yellow > a:hover {
-  color: #df8a13;
-}
 
-</style>
 
 <div class="row" style="margin-bottom:30px;">
     @{
@@ -90,30 +32,7 @@
                             <h4><b>@Html.DisplayFor(modelItem => item.MCQTitle)</b></h4>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">@Html.DisplayFor(modelItem => item.QuestionCount)</div>
-                            <div>Due: @Html.DisplayFor(modelItem => item.DueDate)</div>
-                        </div>
-                    </div>
-                </div>
-                <a href="@Url.Action("Details", "Test", new { id = item.MCQID })">
-                    <div class="panel-footer">
-                        <span class="pull-left">View Details</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-@bg card">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <h4><b>@Html.DisplayFor(modelItem => item.MCQTitle)</b></h4>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">@Html.DisplayFor(modelItem => item.QuestionCount)</div>
+                            <div class="huge">@Html.DisplayFor(modelItem => item.QuestionCount) Questions</div>
                             <div>Due: @Html.DisplayFor(modelItem => item.DueDate)</div>
                         </div>
                     </div>
@@ -129,3 +48,40 @@
         </div>
     }
 </div>
+
+@if (Request.IsAuthenticated && Session["loginMessage"] != null)
+{
+    @section scripts {
+        <script>
+            var str = '@Session["loginMessage"]';
+
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "newestOnTop": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": ClearSession(),
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "50000",
+                "extendedTimeOut": "10000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            toastr["info"]('@Html.ActionLink("View Now", "Index", "Test", null, new { @class = "btn btn-danger btn-sm" })', str);
+
+            function ClearSession() {
+                var data = { type: 'loginMessage', __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() };
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("ClearSession", "Session")",
+                    data: data
+                });
+            }
+        </script>
+    }
+}

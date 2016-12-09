@@ -20,6 +20,7 @@ namespace WebApplication.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -61,6 +62,7 @@ namespace WebApplication.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+
             return View();
         }
 
@@ -82,6 +84,8 @@ namespace WebApplication.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    int testCount = db.MCQs.Count(o => o.ReleaseDate <= DateTime.Now && o.DueDate >= DateTime.Now);
+                    Session["loginMessage"] = "You have " + testCount + " test(s).";
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -336,6 +340,8 @@ namespace WebApplication.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    int testCount = db.MCQs.Count(o => o.ReleaseDate <= DateTime.Now && o.DueDate >= DateTime.Now);
+                    Session["loginMessage"] = "You have " + testCount + " test(s).";
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

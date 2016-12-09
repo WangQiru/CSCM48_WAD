@@ -33,7 +33,7 @@ namespace WebApplication
             if (exception.GetType() == typeof(HttpException))
             {
                 routeData.Values.Add("statusCode", ((HttpException)exception).GetHttpCode());
-                routeData.Values.Add("statusMsg", ((HttpException)exception).GetHtmlErrorMessage());  
+                routeData.Values.Add("statusMsg", ((HttpException)exception).GetHtmlErrorMessage());
             }
             else
             {

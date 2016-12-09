@@ -22,7 +22,15 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("MCQ", "Index", "MCQ")</li>
+                    @if (User.IsInRole("Lecturer"))
+                    {
+                        <li>@Html.ActionLink("MCQ", "Index", "MCQ")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Test", "Index", "Test")</li>
+                    }
+                    <li>@Html.ActionLink("Test", "Index", "Test")</li> <!-- remove me later-->
                     <li>@Html.ActionLink("Question", "Index", "Question")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
@@ -40,5 +48,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+   
+   
+
 </body>
 </html>

@@ -49,31 +49,9 @@ namespace WebApplication.Controllers
             return View(mCQModels);
         }
 
-        // GET: Test/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Test/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Title,Description,ReleaseDate,DueDate")] MCQModels mCQModels)
-        {
-            if (ModelState.IsValid)
-            {
-                db.MCQs.Add(mCQModels);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(mCQModels);
-        }
 
         // GET: Test/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Start(int? id)
         {
             if (id == null)
             {
@@ -92,7 +70,7 @@ namespace WebApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Title,Description,ReleaseDate,DueDate")] MCQModels mCQModels)
+        public ActionResult Start([Bind(Include = "ID,Title,Description,ReleaseDate,DueDate")] MCQModels mCQModels)
         {
             if (ModelState.IsValid)
             {
@@ -103,31 +81,7 @@ namespace WebApplication.Controllers
             return View(mCQModels);
         }
 
-        // GET: Test/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            MCQModels mCQModels = db.MCQs.Find(id);
-            if (mCQModels == null)
-            {
-                return HttpNotFound();
-            }
-            return View(mCQModels);
-        }
-
-        // POST: Test/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            MCQModels mCQModels = db.MCQs.Find(id);
-            db.MCQs.Remove(mCQModels);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+       
 
         protected override void Dispose(bool disposing)
         {

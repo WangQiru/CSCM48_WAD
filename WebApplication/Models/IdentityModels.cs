@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
+using System.Web;
 
 namespace WebApplication.Models
 {
@@ -14,8 +15,15 @@ namespace WebApplication.Models
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-            if(this.LectureNo>0)
-            userIdentity.AddClaim(new Claim(ClaimTypes.Role, "Lecturer"));
+            if (this.LectureNo > 0)
+            {
+                userIdentity.AddClaim(new Claim(ClaimTypes.Role, "Lecturer"));
+                manager.AddToRole(this.Id, "Lecturer");
+            }
+            else
+            {
+                manager.AddToRole(this.Id, "Student");
+            }
             // Add custom user claims here
             return userIdentity;
         }
