@@ -27,11 +27,11 @@ textarea {
     border-radius: 4px;
 }
 
-.center-block {  
-  display: block;  
-  margin-right: auto;  
-  margin-left: auto;  
-} 
+.center-block {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
 
 .table-fixed tbody {
     height: 330px;
@@ -338,3 +338,11 @@ textarea {
         .panel-yellow > a:hover {
             color: #df8a13;
         }
+
+input[type='radio'] {
+    transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -o-transform: scale(1.5);
+}

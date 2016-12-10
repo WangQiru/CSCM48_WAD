@@ -112,7 +112,7 @@
                                 <a class="btn btn-sm btn-info updateQuestion" id="updateQuestion-@counter" rowno="@counter" value="@question.ID">Edit</a>
                                 <a class="btn btn-sm btn-success updateQuestionSubmit" id="updateQuestionSubmit-@counter" rowno="@counter" value="@question.ID" style="display:none">Update</a>
                                 <a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#optionModal-@counter">View Options</a>
-                                <a href="#" class="btn btn-sm btn-danger" title="Confirmation" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true" data-content='<a class="btn btn-sm btn-danger deleteQuestion" rowno="@counter" value="@question.ID">Yes</a><a class="btn btn-sm btn-success popoverClose pull-right" >No</a>'>Delete</a>
+                                <a href="#" class="btn btn-sm btn-danger" title="Confirmation" data-toggle="popover" data-placement="auto right" data-trigger="focus" data-html="true" data-content='<a class="btn btn-sm btn-danger deleteQuestion" rowno="@counter" value="@question.ID">Yes</a><a class="btn btn-sm btn-success popoverClose pull-right" >No</a>'>Delete</a>
                                 <span class="text-danger questionModifyMessage" id="questionModifyMessage-@counter"></span>
                             </td>
                         </tr>

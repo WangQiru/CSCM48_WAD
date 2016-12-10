@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -41,8 +42,8 @@ namespace WebApplication.Controllers
         {
             ViewBag.UserId = new SelectList(db.Users, "Id", "Name");
             ViewBag.MCQID = new SelectList(db.MCQs, "ID", "Title");
-            ViewBag.Option = new SelectList(db.Options, "ID", "Text");
-            ViewBag.QuestionID = new SelectList(db.Options, "ID", "Text");
+            ViewBag.OptionID = new SelectList(db.Options, "ID", "Text");
+            ViewBag.QuestionID = new SelectList(db.Questions, "ID", "Text");
             return View();
         }
 
@@ -51,7 +52,7 @@ namespace WebApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,MCQID,Option,QuestionID,UserId")] ResponseModels responseModels)
+        public ActionResult Create([Bind(Include = "ID,MCQID,OptionID,QuestionID,UserId")] ResponseModels responseModels)
         {
             if (ModelState.IsValid)
             {
@@ -62,11 +63,36 @@ namespace WebApplication.Controllers
 
             ViewBag.UserId = new SelectList(db.Users, "Id", "Name", responseModels.UserId);
             ViewBag.MCQID = new SelectList(db.MCQs, "ID", "Title", responseModels.MCQID);
-            ViewBag.Option = new SelectList(db.Options, "ID", "Text", responseModels.Option);
-            ViewBag.QuestionID = new SelectList(db.Options, "ID", "Text", responseModels.QuestionID);
+            ViewBag.OptionID = new SelectList(db.Options, "ID", "Text", responseModels.OptionID);
+            ViewBag.QuestionID = new SelectList(db.Questions, "ID", "Text", responseModels.QuestionID);
             return View(responseModels);
         }
 
+        [ValidateAntiForgeryToken]
+        public JsonResult AjaxCreate(List<Answer> answerList)
+        {
+            System.Diagnostics.Debug.WriteLine(answerList);
+            System.Diagnostics.Debug.WriteLine(answerList[0].MCQID);
+            foreach (Answer ans in answerList)
+            {
+                ResponseModels res = new ResponseModels();
+                res.MCQID = ans.MCQID;
+                res.OptionID = ans.OptionID;
+                res.QuestionID = ans.QuestionID;
+                res.UserId = User.Identity.GetUserId();
+                db.Responses.Add(res);
+                db.SaveChanges();
+            }
+
+            return Json("Response from create");
+        }
+
+        public class Answer
+        {
+            public int MCQID { get; set; }
+            public int OptionID { get; set; }
+            public int QuestionID { get; set; }
+        }
 
         protected override void Dispose(bool disposing)
         {

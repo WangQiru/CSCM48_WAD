@@ -151,3 +151,6 @@ D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.Respons
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.csproj.GenerateResource.Cache
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.dll
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.pdb
+D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.composite_key.resources
+D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.optionID.resources
+D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.optionID1.resources

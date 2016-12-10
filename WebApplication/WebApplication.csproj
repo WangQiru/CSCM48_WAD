@@ -218,6 +218,18 @@
     <Compile Include="Migrations\201612090320551_Response.Designer.cs">
       <DependentUpon>201612090320551_Response.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612092337366_composite_key.cs" />
+    <Compile Include="Migrations\201612092337366_composite_key.Designer.cs">
+      <DependentUpon>201612092337366_composite_key.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612100037098_optionID.cs" />
+    <Compile Include="Migrations\201612100037098_optionID.Designer.cs">
+      <DependentUpon>201612100037098_optionID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612100348200_optionID1.cs" />
+    <Compile Include="Migrations\201612100348200_optionID1.Designer.cs">
+      <DependentUpon>201612100348200_optionID1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -323,7 +335,9 @@
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Test\Start.cshtml" />
     <Content Include="Views\Response\Create.cshtml" />
+    <Content Include="Views\Response\Delete.cshtml" />
     <Content Include="Views\Response\Details.cshtml" />
+    <Content Include="Views\Response\Edit.cshtml" />
     <Content Include="Views\Response\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -356,6 +370,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612090320551_Response.resx">
       <DependentUpon>201612090320551_Response.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612092337366_composite_key.resx">
+      <DependentUpon>201612092337366_composite_key.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612100037098_optionID.resx">
+      <DependentUpon>201612100037098_optionID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612100348200_optionID1.resx">
+      <DependentUpon>201612100348200_optionID1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

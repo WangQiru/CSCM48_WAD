@@ -20,20 +20,35 @@
                 int max = Model.QuestionModelsList.Count();
                 string str = "active";
             }
+
             <style>
-                input[type='radio'] {
-                    transform: scale(1.5);
-                    -moz-transform: scale(1.5);
-                    -ms-transform: scale(1.5);
-                    -webkit-transform: scale(1.5);
-                    -o-transform: scale(1.5);
+                .nav-custom > li.active > a,
+                .nav-custom > li.active > a:hover,
+                .nav-custom > li.active > a:focus {
+                    color: #ffffff;
+                    background-color: #d9534f;
+                }
+
+                .nav-custom > li.answered > a,
+                .nav-custom > li.active.answered > a:hover,
+                .nav-custom > li.answered > a:focus {
+                    color: #ffffff;
+                    background-color: #3fad46;
+                }
+
+                .nav-custom > li.active.answered > a {
+                    color: #ffffff;
+                    background-color: #d9534f;
+                }
+
+                .nav-custom > li.answered > a:hover {
+                    color: #3fad46;
+                    background-color: #eeeeee;
                 }
             </style>
 
-            <!-- /.panel-heading -->
             <div class="panel-body">
-                <!-- Nav tabs -->
-                <ul class="nav nav-pills">
+                <ul class="nav nav-pills nav-custom">
                     @foreach (var question in Model.QuestionModelsList)
                     {
                         if (counter2 == 1)
@@ -51,7 +66,7 @@
                     }
                 </ul>
 
-                <!-- Tab panes -->
+
                 <div class="tab-content">
                     @foreach (var question in Model.QuestionModelsList)
                     {
@@ -74,19 +89,19 @@
                                         <div class="col-lg-3 col-md-3 col-sm-3">
                                             @if (i == 0)
                                             {
-                                                <h2><span id="optionA-@counter" qno="@counter"><strong>A </strong></span></h2>
+                                                <h2><span id="optionA-@counter" qno="@question.ID"><strong>A </strong></span></h2>
                                             }
                                             @if (i == 2)
                                             {
-                                                <h2><span id="optionB-@counter" qno="@counter"><strong>B </strong></span></h2>
+                                                <h2><span id="optionB-@counter" qno="@question.ID"><strong>B </strong></span></h2>
                                             }
                                             @if (i == 4)
                                             {
-                                                <h2><span id="optionC-@counter" qno="@counter"><strong>C </strong></span></h2>
+                                                <h2><span id="optionC-@counter" qno="@question.ID"><strong>C </strong></span></h2>
                                             }
                                             @if (i == 6)
                                             {
-                                                <h2><span id="optionD-@counter" qno="@counter"><strong>D </strong></span></h2>
+                                                <h2><span id="optionD-@counter" qno="@question.ID"><strong>D </strong></span></h2>
                                             }
 
                                             @Model.QuestionModelsList[counter - 1].OptionsModelsList[i].Text
@@ -99,16 +114,16 @@
                                     <div class="col-lg-4 col-md-4 pull-right">
                                         <label>Answer:&nbsp;&nbsp;</label>
                                         <label class="radio-inline">
-                                            <input type="radio" name="optionRadio-@counter" id="optionRadioA-@counter" qno="@counter" value="A">A
+                                            <input type="radio" name="optionRadio-@counter" id="optionRadioA-@counter" seqno="@counter-1" qno="@question.ID" value="@Model.QuestionModelsList[counter - 1].OptionsModelsList[0].ID">A
                                         </label>
                                         <label class="radio-inline">
-                                            <input type="radio" name="optionRadio-@counter" id="optionRadioB-@counter" qno="@counter" value="B">B
+                                            <input type="radio" name="optionRadio-@counter" id="optionRadioB-@counter" seqno="@counter-1" qno="@question.ID" value="@Model.QuestionModelsList[counter - 1].OptionsModelsList[2].ID">B
                                         </label>
                                         <label class="radio-inline">
-                                            <input type="radio" name="optionRadio-@counter" id="optionRadioC-@counter" qno="@counter" value="C">C
+                                            <input type="radio" name="optionRadio-@counter" id="optionRadioC-@counter" seqno="@counter-1" qno="@question.ID" value="@Model.QuestionModelsList[counter - 1].OptionsModelsList[4].ID">C
                                         </label>
                                         <label class="radio-inline">
-                                            <input type="radio" name="optionRadio-@counter" id="optionRadioD-@counter" qno="@counter" value="D">D
+                                            <input type="radio" name="optionRadio-@counter" id="optionRadioD-@counter" seqno="@counter-1" qno="@question.ID" value="@Model.QuestionModelsList[counter - 1].OptionsModelsList[6].ID">D
                                         </label>
 
                                     </div>
@@ -130,20 +145,17 @@
                                         }
                                         else
                                         {
-                                            <a class="btn btn-danger pull-right nextButton" id="submit">Submit</a>
+                                            <a href="#" class="btn btn-danger pull-right" id="submitPopover" title="Confirmation" data-toggle="popover" data-placement="auto right" data-trigger="focus" data-html="true" data-content='<a class="btn btn-sm btn-danger" id="submit">Yes</a><a class="btn btn-sm btn-success pull-right" >No</a>'>Submit</a>
                                         }
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                         counter++;
                     }
                 </div>
             </div>
-            <!-- /.panel-body -->
         </div>
-        <!-- /.panel -->
     </div>
 </div>
 
@@ -153,24 +165,60 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
-        $(function () {
+        $(function (){
+
+            function ResponseModels(){
+                var self= this;
+                self.MCQID = @Html.Raw(Json.Encode(Model.MCQModels.ID));
+            }
+
+            $('[data-toggle="popover"]').popover();
+
+            var things = [];
+
+            var optionList = new Array(@max);
+
             $('.nextButton').click(function () {
                 $('.nav-pills > .active').next('li').find('a').trigger('click');
             });
-            $('.previousButton').click(function () {
+
+            $('.previousButton').click(function (){
                 $('.nav-pills > .active').prev('li').find('a').trigger('click');
             });
 
             $('input[type="radio"]').on("click", function () {
+                $('.nav-pills > .active').addClass('answered answeredRemoved');
                 var qno = $(this).attr('qno');
                 var option = $(this).val();
                 var str = option + '-' + qno;
                 $('span[qno=' + qno + ']').removeClass("text-danger");
                 $('#option' + str).addClass("text-danger");
+
+                var seqno = $(this).attr('seqno');
+               // var responseModel = new ResponseModels();
+                var obj = {
+                    MCQID:@Html.Raw(Json.Encode(Model.MCQModels.ID)),
+                    OptionID: option,
+                    QuestionID: qno
+                };
+
+                things.push(obj);
+
+               // responseModel.OptionID = option;
+                //responseModel.QuestionID = qno;
+                //optionList[seqno]=responseModel;
             });
 
-            $('#submit').click(function () {
-                $('.nav-pills > .active').next('li').find('a').trigger('click');
+            $('.tab-content').on("click", "#submit", function () {
+                var data = { __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(), answerList: things};
+                console.log(data);
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AjaxCreate", "Response")",
+                    data: data,
+                    success: function (res) {
+                    }
+                });
             });
         });
     </script>
