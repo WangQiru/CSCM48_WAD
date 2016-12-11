@@ -1,10 +1,8 @@
-﻿using System.Data.Entity;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Web;
 
 namespace WebApplication.Models
 {
@@ -15,15 +13,25 @@ namespace WebApplication.Models
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-            if (this.LectureNo > 0)
+            if (this.LectureNo > 0 && !manager.IsInRole(this.Id, "Lecturer"))
             {
-                userIdentity.AddClaim(new Claim(ClaimTypes.Role, "Lecturer"));
                 manager.AddToRole(this.Id, "Lecturer");
+                manager.AddClaim(this.Id, (new Claim("Role", "Lecturer")));
+                manager.AddClaim(this.Id, (new Claim("Permission", "CRUD MCQ")));
+                manager.AddClaim(this.Id, (new Claim("Permission", "Attempt Tests")));
             }
-            else
+            else if (this.StudentNo == 999999 && !manager.IsInRole(this.Id, "Lecturer"))
+            {
+                manager.AddToRole(this.Id, "Lecturer");
+                manager.AddClaim(this.Id, (new Claim("May-I-Cheat-As-A-Student", "Yes")));
+            }
+            else if (this.StudentNo > 0 && !manager.IsInRole(this.Id, "Student"))
             {
                 manager.AddToRole(this.Id, "Student");
+                manager.AddClaim(this.Id, (new Claim("Role", "Student")));
+                manager.AddClaim(this.Id, (new Claim("Permission", "Attempt Tests")));
             }
+
             // Add custom user claims here
             return userIdentity;
         }

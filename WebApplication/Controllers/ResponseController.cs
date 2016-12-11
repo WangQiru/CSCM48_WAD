@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
-using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using WebApplication.Models;
 
@@ -37,51 +34,27 @@ namespace WebApplication.Controllers
             return View(responseModels);
         }
 
-        // GET: Response/Create
-        public ActionResult Create()
-        {
-            ViewBag.UserId = new SelectList(db.Users, "Id", "Name");
-            ViewBag.MCQID = new SelectList(db.MCQs, "ID", "Title");
-            ViewBag.OptionID = new SelectList(db.Options, "ID", "Text");
-            ViewBag.QuestionID = new SelectList(db.Questions, "ID", "Text");
-            return View();
-        }
-
-        // POST: Response/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,MCQID,OptionID,QuestionID,UserId")] ResponseModels responseModels)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Responses.Add(responseModels);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.UserId = new SelectList(db.Users, "Id", "Name", responseModels.UserId);
-            ViewBag.MCQID = new SelectList(db.MCQs, "ID", "Title", responseModels.MCQID);
-            ViewBag.OptionID = new SelectList(db.Options, "ID", "Text", responseModels.OptionID);
-            ViewBag.QuestionID = new SelectList(db.Questions, "ID", "Text", responseModels.QuestionID);
-            return View(responseModels);
-        }
 
         [ValidateAntiForgeryToken]
         public JsonResult AjaxCreate(List<Answer> answerList)
         {
-            System.Diagnostics.Debug.WriteLine(answerList);
-            System.Diagnostics.Debug.WriteLine(answerList[0].MCQID);
+            string userId = User.Identity.GetUserId();
             foreach (Answer ans in answerList)
             {
                 ResponseModels res = new ResponseModels();
                 res.MCQID = ans.MCQID;
                 res.OptionID = ans.OptionID;
                 res.QuestionID = ans.QuestionID;
-                res.UserId = User.Identity.GetUserId();
-                db.Responses.Add(res);
-                db.SaveChanges();
+                res.UserId = userId;
+                if (!db.Responses.Any(u => u.UserId == userId && u.QuestionID == ans.QuestionID))
+                {
+                    db.Responses.Add(res);
+                    db.SaveChanges();
+                }
+                else
+                {
+
+                }
             }
 
             return Json("Response from create");

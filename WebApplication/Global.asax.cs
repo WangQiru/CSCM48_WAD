@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using WebApplication.Controllers;
+using WebApplication.Models;
 
 namespace WebApplication
 {
@@ -18,7 +20,101 @@ namespace WebApplication
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            // Seed te users required
+            Seed(new ApplicationDbContext());
         }
+
+
+        protected void Seed(ApplicationDbContext context)
+        {
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            var passwordHash = new PasswordHasher();
+            string password = passwordHash.HashPassword("password");
+            var newUserList = new List<ApplicationUser>();
+
+            var newUser = new ApplicationUser
+            {
+                UserName = "123456",
+                Email = "Lecturer1@email.com",
+                PasswordHash = password,
+                LectureNo = 123456
+            };
+
+            newUserList.Add(newUser);
+
+            newUser = new ApplicationUser
+            {
+                UserName = "1",
+                Email = "Student1@email.com",
+                PasswordHash = password,
+                StudentNo = 1,
+            };
+
+            newUserList.Add(newUser);
+
+            newUser = new ApplicationUser
+            {
+                UserName = "2",
+                Email = "Student2@email.com",
+                PasswordHash = password,
+                StudentNo = 2,
+            };
+
+            newUserList.Add(newUser);
+
+            newUser = new ApplicationUser
+            {
+                UserName = "3",
+                Email = "Student3@email.com",
+                PasswordHash = password,
+                StudentNo = 3,
+            };
+
+            newUserList.Add(newUser);
+
+            newUser = new ApplicationUser
+            {
+                UserName = "4",
+                Email = "Student4@email.com",
+                PasswordHash = password,
+                StudentNo = 4,
+            };
+
+            newUserList.Add(newUser);
+
+            newUser = new ApplicationUser
+            {
+                UserName = "5",
+                Email = "Student5@email.com",
+                PasswordHash = password,
+                StudentNo = 5,
+            };
+
+            newUserList.Add(newUser);
+
+            newUser = new ApplicationUser
+            {
+                UserName = "9999",
+                Email = "Student9999@email.com",
+                PasswordHash = password,
+                StudentNo = 9999,
+            };
+
+            newUserList.Add(newUser);
+
+            foreach (ApplicationUser u in newUserList)
+            {
+                ApplicationUser user = userManager.FindByName(u.UserName);
+                if (user == null)
+                {
+                    userManager.Create(u);
+                }
+            }
+
+
+        }
+
 
         public void Application_Error(Object sender, EventArgs e)
         {

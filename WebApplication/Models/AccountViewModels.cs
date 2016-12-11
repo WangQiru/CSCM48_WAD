@@ -58,8 +58,8 @@ namespace WebApplication.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Student Number")]
-        public int StudentNo { get; set; }
+        [Display(Name = "ID Number")]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

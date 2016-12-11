@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace WebApplication.Controllers
@@ -26,7 +23,7 @@ namespace WebApplication.Controllers
             {
                 statusMsg = "Aha, you just witnessed a server failure, maybe try again later?";
             }
-            
+
             else if (statusCode == 503)
             {
                 statusMsg = "Looks like our server is having trouble, maybe try again later?";

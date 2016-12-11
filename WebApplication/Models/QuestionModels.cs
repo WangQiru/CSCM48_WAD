@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,6 +14,5 @@ namespace WebApplication.Models
         public string Text { get; set; }
         public List<OptionModels> OptionsModelsList { get; set; }
     }
-
 
 }

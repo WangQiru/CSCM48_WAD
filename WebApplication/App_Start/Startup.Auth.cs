@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using WebApplication.Models;
+using Schaeflein.Community.MVC5AuthZPolicy;
 
 namespace WebApplication
 {
@@ -14,6 +15,27 @@ namespace WebApplication
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
+            var options = new AuthorizationOptions();
+            options.AddPolicy("Lecturer", policy =>
+            {
+                policy.RequireClaim("Permission", "CRUD MCQ");
+                policy.RequireClaim("Role", "Lecturer");
+            });
+
+            options.AddPolicy("Cheat", policy =>
+            {
+                policy.RequireClaim("May-I-Cheat-As-A-Student", "Yes");
+            });
+
+            options.AddPolicy("studentEnrolled", policy =>
+            {
+                policy.RequireClaim("Permission", "Attempt Tests");
+            });
+
+
+
+            app.UseMVC5AuthZPolicy(AuthorizationService.Create(options));
+
             // Configure the db context, user manager and signin manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
@@ -31,10 +53,10 @@ namespace WebApplication
                     // Enables the application to validate the security stamp when the user logs in.
                     // This is a security feature which is used when you change a password or add an external login to your account.  
                     OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
-                        validateInterval: TimeSpan.FromMinutes(30),
+                        validateInterval: TimeSpan.FromMinutes(0),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.

@@ -49,6 +49,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Schaeflein.Community.MVC5AuthZPolicy">
+      <HintPath>..\packages\MVC5AuthZPolicy.0.1.0\Schaeflein.Community.MVC5AuthZPolicy.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -313,11 +316,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Question\Create.cshtml" />
-    <Content Include="Views\Question\Delete.cshtml" />
-    <Content Include="Views\Question\Details.cshtml" />
-    <Content Include="Views\Question\Edit.cshtml" />
-    <Content Include="Views\Question\Index.cshtml" />
     <Content Include="Views\MCQ\Create.cshtml" />
     <Content Include="Views\MCQ\Delete.cshtml" />
     <Content Include="Views\MCQ\Details.cshtml" />
@@ -334,15 +332,11 @@
     <Content Include="Views\Test\Edit.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Test\Start.cshtml" />
-    <Content Include="Views\Response\Create.cshtml" />
-    <Content Include="Views\Response\Delete.cshtml" />
     <Content Include="Views\Response\Details.cshtml" />
-    <Content Include="Views\Response\Edit.cshtml" />
     <Content Include="Views\Response\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Session\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

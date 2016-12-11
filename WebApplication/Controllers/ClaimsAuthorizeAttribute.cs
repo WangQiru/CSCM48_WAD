@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading;
 using System.Web.Mvc;
-using System.Web.Routing;
 
 namespace WebApplication.Controllers
 {
@@ -22,15 +20,19 @@ namespace WebApplication.Controllers
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             var identity = (ClaimsIdentity)Thread.CurrentPrincipal.Identity;
-            var claim = identity.Claims.FirstOrDefault(c => c.Type == claimType && c.Value == claimValue);
+            var claimList = identity.Claims.Where(c => c.Type == claimType && c.Value == claimValue).ToList();
+            // var claim = identity.Claims.FirstOrDefault(c => c.Type == claimType && c.Value == claimValue);
 
-            if (claim != null)
+            foreach (Claim c in claimList)
             {
-                base.OnAuthorization(filterContext);
-            }
-            else
-            {
-                HandleUnauthorizedRequest(filterContext);
+                if (c != null)
+                {
+                    base.OnAuthorization(filterContext);
+                }
+                else
+                {
+                    HandleUnauthorizedRequest(filterContext);
+                }
             }
         }
 

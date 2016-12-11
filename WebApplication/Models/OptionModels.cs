@@ -13,6 +13,4 @@ namespace WebApplication.Models
         public string Text { get; set; }
         public bool correct { get; set; }
     }
-
-
 }

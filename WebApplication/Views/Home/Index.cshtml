@@ -29,12 +29,21 @@
         <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
 </div>
-@if (Request.IsAuthenticated && Session["loginMessage"] != null)
-{
-    @section scripts {
-        <script>
-            var str = '@Session["loginMessage"]';
+@section scripts {
+    <script>
+        @if (Request.IsAuthenticated && !User.IsInRole("Student") && !User.IsInRole("Lecturer")) {
+        <text>
+        window.location.reload();
+        </text>
+        }
 
+        @if (Request.IsAuthenticated && User.IsInRole("Student") && Session["loginMessage"] != null)
+        {<text>
+        var str = '@Session["loginMessage"]';
+
+
+
+        function TestNotification() {
             toastr.options = {
                 "closeButton": true,
                 "debug": false,
@@ -53,15 +62,21 @@
                 "hideMethod": "fadeOut"
             }
             toastr["info"]('@Html.ActionLink("View Now", "Index", "Test", null, new { @class = "btn btn-danger btn-sm" })', str);
+        }
 
-            function ClearSession() {
-                var data = { type: 'loginMessage', __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() };
-                $.ajax({
-                    type: "POST",
-                    url: "@Url.Action("ClearSession", "Session")",
-                    data: data
-                });
-            }
-        </script>
-    }
+
+        TestNotification();
+
+
+        function ClearSession() {
+            var data = { type: 'loginMessage', __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() };
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ClearSession", "Session")",
+                data: data
+            });
+        }
+
+        </text>}
+    </script>
 }

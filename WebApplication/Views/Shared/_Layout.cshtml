@@ -25,13 +25,12 @@
                     @if (User.IsInRole("Lecturer"))
                     {
                         <li>@Html.ActionLink("MCQ", "Index", "MCQ")</li>
-                    }
-                    else
-                    {
                         <li>@Html.ActionLink("Test", "Index", "Test")</li>
                     }
-                    <li>@Html.ActionLink("Test", "Index", "Test")</li> <!-- remove me later-->
-                    <li>@Html.ActionLink("Question", "Index", "Question")</li>
+                    else if (User.IsInRole("Student"))
+                    {
+                        <li>@Html.ActionLink("My Test", "Index", "Test")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -47,9 +46,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-   
-   
+    @RenderSection("scripts", required: false) 
 
 </body>
 </html>
