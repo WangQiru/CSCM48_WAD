@@ -20,203 +20,211 @@
                 int max = Model.QuestionModelsList.Count();
                 string str = "active";
             }
-
-            <style>
-                .nav-custom > li.active > a,
-                .nav-custom > li.active > a:hover,
-                .nav-custom > li.active > a:focus {
-                    color: #ffffff;
-                    background-color: #d9534f;
-                }
-
-                .nav-custom > li.answered > a,
-                .nav-custom > li.active.answered > a:hover,
-                .nav-custom > li.answered > a:focus {
-                    color: #ffffff;
-                    background-color: #3fad46;
-                }
-
-                .nav-custom > li.active.answered > a {
-                    color: #ffffff;
-                    background-color: #d9534f;
-                }
-
-                .nav-custom > li.answered > a:hover {
-                    color: #3fad46;
-                    background-color: #eeeeee;
-                }
-            </style>
-
             <div class="panel-body">
-                <ul class="nav nav-pills nav-custom">
-                    @foreach (var question in Model.QuestionModelsList)
-                    {
-                        if (counter2 == 1)
+                <!-- Section for reviwing answers-->
+                <div class="table-responsive" hidden>
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Question</th>
+                                <th>Your answer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var question in Model.QuestionModelsList)
+                            {
+                                <tr><td class="col-lg-3 col-md-3 col-sm-3">@question.Text</td><td class="col-lg-3 col-md-3 col-sm-3" id="optiontexttd-@question.ID"></td></tr>
+                            }
+                            <tr>
+                                <td></td>
+                                <td style=" text-align right;">
+                                    <a href="#" class="btn btn-primary" id="reviewBack">Back</a>
+                                    <a href="#" class="btn btn-danger" id="submitPopover" title="Confirmation" data-toggle="popover" data-placement="auto right" data-trigger="focus" data-html="true" data-content='<a class="btn btn-sm btn-danger" id="submit">Yes</a><a class="btn btn-sm btn-success pull-right" >No</a>'>Submit</a>&nbsp;&nbsp;
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- End of Section for reviwing answers -->
+                <!-- Section for answering the test-->
+                <div class="answerboard">
+                    <ul class="nav nav-pills nav-custom">
+                        @foreach (var question in Model.QuestionModelsList)
                         {
-                            str = "active";
+                            if (counter2 == 1)
+                            {
+                                str = "active";
+                            }
+                            else
+                            {
+                                str = "";
+                            }
+                            <li class="@str">
+                                <a href="#pills-@counter2" data-toggle="tab" aria-expanded="false">Question @counter2</a>
+                            </li>
+                            counter2++;
                         }
-                        else
+                    </ul>
+                    <div class="tab-content">
+                        <!-- Loop for displaying questions-->
+                        @foreach (var question in Model.QuestionModelsList)
                         {
-                            str = "";
-                        }
-                        <li class="@str">
-                            <a href="#pills-@counter2" data-toggle="tab" aria-expanded="false">Question @counter2</a>
-                        </li>
-                        counter2++;
-                    }
-                </ul>
+                            if (counter == 1)
+                            {
+                                str = "tab-pane fade in active";
+                            }
+                            else
+                            {
+                                str = "tab-pane fade";
+                            }
 
-
-                <div class="tab-content">
-                    @foreach (var question in Model.QuestionModelsList)
-                    {
-                        if (counter == 1)
-                        {
-                            str = "tab-pane fade in active";
-                        }
-                        else
-                        {
-                            str = "tab-pane fade";
-                        }
-
-                        <div class="@str" id="pills-@counter">
-                            <h1>@question.Text</h1>
-                            <hr />
-                            <div class="col-lg-12">
-                                <div class="row">
-                                    @for (int i = 0; i < Model.QuestionModelsList[counter - 1].OptionsModelsList.Count; i += 2)
-                                    {
-                                        <div class="col-lg-3 col-md-3 col-sm-3">
-                                            @if (i == 0)
-                                            {
-                                                <h2><span id="optionA-@counter" qno="@question.ID"><strong>A </strong></span></h2>
-                                            }
-                                            @if (i == 2)
-                                            {
-                                                <h2><span id="optionB-@counter" qno="@question.ID"><strong>B </strong></span></h2>
-                                            }
-                                            @if (i == 4)
-                                            {
-                                                <h2><span id="optionC-@counter" qno="@question.ID"><strong>C </strong></span></h2>
-                                            }
-                                            @if (i == 6)
-                                            {
-                                                <h2><span id="optionD-@counter" qno="@question.ID"><strong>D </strong></span></h2>
-                                            }
-
-                                            @Model.QuestionModelsList[counter - 1].OptionsModelsList[i].Text
-
-                                            <br /><br />
-                                        </div>
-                                    }
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 pull-right">
-                                        <label>Answer:&nbsp;&nbsp;</label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="optionRadio-@counter" id="optionRadioA-@counter" seqno="@counter-1" qno="@question.ID" value="@Model.QuestionModelsList[counter - 1].OptionsModelsList[0].ID">A
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="optionRadio-@counter" id="optionRadioB-@counter" seqno="@counter-1" qno="@question.ID" value="@Model.QuestionModelsList[counter - 1].OptionsModelsList[2].ID">B
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="optionRadio-@counter" id="optionRadioC-@counter" seqno="@counter-1" qno="@question.ID" value="@Model.QuestionModelsList[counter - 1].OptionsModelsList[4].ID">C
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="optionRadio-@counter" id="optionRadioD-@counter" seqno="@counter-1" qno="@question.ID" value="@Model.QuestionModelsList[counter - 1].OptionsModelsList[6].ID">D
-                                        </label>
-
-                                    </div>
-                                </div>
-
-                                <br />
+                            <div class="@str" id="pills-@counter">
+                                <h1 id="qtext-@question.ID">@question.Text</h1>
                                 <hr />
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        @if (counter != 1)
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <!-- Loop for displaying options-->
+                                        @for (int i = 0; i < Model.QuestionModelsList[counter - 1].OptionsModelsList.Count; i += 2)
                                         {
-                                            <a class="btn btn-primary previousButton">Previous</a>
+                                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                                @if (i == 0)
+                                                {
+                                                    <h2><span id="optionA-@counter" qno="@question.ID"><strong>A </strong></span></h2>
+                                                }
+                                                @if (i == 2)
+                                                {
+                                                    <h2><span id="optionB-@counter" qno="@question.ID"><strong>B </strong></span></h2>
+                                                }
+                                                @if (i == 4)
+                                                {
+                                                    <h2><span id="optionC-@counter" qno="@question.ID"><strong>C </strong></span></h2>
+                                                }
+                                                @if (i == 6)
+                                                {
+                                                    <h2><span id="optionD-@counter" qno="@question.ID"><strong>D </strong></span></h2>
+                                                }
+
+                                                @Model.QuestionModelsList[counter - 1].OptionsModelsList[i].Text
+
+                                                <br /><br />
+                                            </div>
                                         }
+                                        <!-- End of loop for displaying options-->
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        @if (counter != max)
-                                        {
-                                            <a class="btn btn-primary pull-right nextButton">Next</a>
-                                        }
-                                        else
-                                        {
-                                            <a href="#" class="btn btn-danger pull-right" id="submitPopover" title="Confirmation" data-toggle="popover" data-placement="auto right" data-trigger="focus" data-html="true" data-content='<a class="btn btn-sm btn-danger" id="submit">Yes</a><a class="btn btn-sm btn-success pull-right" >No</a>'>Submit</a>
-                                        }
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 pull-right">
+                                            <label>Answer:&nbsp;&nbsp;</label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="optionRadio-@counter" id="optionRadioA-@counter" qno="@question.ID" option="optionA-@counter" optiontext="@Model.QuestionModelsList[counter - 1].OptionsModelsList[0].Text" value="@Model.QuestionModelsList[counter - 1].OptionsModelsList[0].ID">A
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="optionRadio-@counter" id="optionRadioB-@counter" qno="@question.ID" option="optionB-@counter" optiontext="@Model.QuestionModelsList[counter - 1].OptionsModelsList[2].Text" value="@Model.QuestionModelsList[counter - 1].OptionsModelsList[2].ID">B
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="optionRadio-@counter" id="optionRadioC-@counter" qno="@question.ID" option="optionC-@counter" optiontext="@Model.QuestionModelsList[counter - 1].OptionsModelsList[4].Text" value="@Model.QuestionModelsList[counter - 1].OptionsModelsList[4].ID">C
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="optionRadio-@counter" id="optionRadioD-@counter" qno="@question.ID" option="optionD-@counter" optiontext="@Model.QuestionModelsList[counter - 1].OptionsModelsList[6].Text" value="@Model.QuestionModelsList[counter - 1].OptionsModelsList[6].ID">D
+                                            </label>
+
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            @if (counter != 1)
+                                            {
+                                                <a class="btn btn-primary previousButton">Previous</a>
+                                            }
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            @if (counter != max)
+                                            {
+                                                <a class="btn btn-primary pull-right nextButton">Next</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="#" class="btn btn-danger pull-right" id="submitReview">Review</a>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        counter++;
-                    }
+                            counter++;
+                        }
+                        <!-- End of loop for displaying questions-->
+                    </div>
                 </div>
+                <!-- End of section for answering the test-->
             </div>
         </div>
     </div>
 </div>
-
-
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
         $(function (){
-
-            function ResponseModels(){
-                var self= this;
-                self.MCQID = @Html.Raw(Json.Encode(Model.MCQModels.ID));
-            }
-
-            $('[data-toggle="popover"]').popover();
-
-            var things = [];
-
-            var optionList = new Array(@max);
-
-            $('.nextButton').click(function () {
-                $('.nav-pills > .active').next('li').find('a').trigger('click');
-            });
-
-            $('.previousButton').click(function (){
-                $('.nav-pills > .active').prev('li').find('a').trigger('click');
-            });
+            var answerList = [];
+            var max=@max;
 
             $('input[type="radio"]').on("click", function () {
                 $('.nav-pills > .active').addClass('answered answeredRemoved');
                 var qno = $(this).attr('qno');
                 var option = $(this).val();
-                var str = option + '-' + qno;
-                $('span[qno=' + qno + ']').removeClass("text-danger");
-                $('#option' + str).addClass("text-danger");
+                var str = $(this).attr('option');
 
-                var seqno = $(this).attr('seqno');
-               // var responseModel = new ResponseModels();
-                var obj = {
+                $('span[qno=' + qno + ']').removeClass("text-danger");
+                $('#'+str).addClass("text-danger");
+                var answer = {
                     MCQID:@Html.Raw(Json.Encode(Model.MCQModels.ID)),
                     OptionID: option,
                     QuestionID: qno
                 };
+                if(answerList.length==0)
+                    answerList.push(answer);
+                else{
+                    var exist = false;
+                    for (var obj in answerList) {
 
-                things.push(obj);
-
-               // responseModel.OptionID = option;
-                //responseModel.QuestionID = qno;
-                //optionList[seqno]=responseModel;
+                        if(answerList[obj].QuestionID == qno){
+                            answerList[obj].OptionID = option;
+                            exist = true;
+                        }
+                    }
+                    if(!exist)
+                        answerList.push(answer);
+                }
+                $('#optiontexttd-'+qno).text($(this).attr('optiontext'));
             });
 
-            $('.tab-content').on("click", "#submit", function () {
-                var data = { __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(), answerList: things};
-                console.log(data);
+            $('#submitReview').click(function () {
+                if(answerList.length<max){
+                    toastr["error"]("Please answer all questions.", "Incomplete Test");
+                }else{
+                    $('.answerboard').hide();
+                    $('.table-responsive').show();
+                    toastr.clear();
+                }
+            });
+            $('#reviewBack').click(function () {
+                $('.table-responsive').hide();
+                $('.answerboard').show();
+            });
+
+            $('.table-responsive').on("click", "#submit", function () {
+                var data = { __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(), answerList: answerList};
+                /** Ajax for submitting answers **/
                 $.ajax({
                     type: "POST",
                     url: "@Url.Action("AjaxCreate", "Response")",
                     data: data,
                     success: function (res) {
+                        toastr["success"]("Submission was successful. Redirect in 5 seconds.", "Complete",{timeOut: 5000});
+                        setTimeout(function(){ window.location.href = "@Url.Action("Index", "Test")"; }, 5000);
                     }
                 });
             });

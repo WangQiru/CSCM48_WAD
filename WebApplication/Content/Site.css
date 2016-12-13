@@ -3,20 +3,15 @@
     padding-bottom: 20px;
 }
 
-/* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
 .dl-horizontal dt {
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
@@ -345,4 +340,29 @@ input[type='radio'] {
     -ms-transform: scale(1.5);
     -webkit-transform: scale(1.5);
     -o-transform: scale(1.5);
+}
+
+
+.nav-custom > li.active > a,
+.nav-custom > li.active > a:hover,
+.nav-custom > li.active > a:focus {
+    color: #ffffff;
+    background-color: #d9534f;
+}
+
+.nav-custom > li.answered > a,
+.nav-custom > li.active.answered > a:hover,
+.nav-custom > li.answered > a:focus {
+    color: #ffffff;
+    background-color: #3fad46;
+}
+
+.nav-custom > li.active.answered > a {
+    color: #ffffff;
+    background-color: #d9534f;
+}
+
+.nav-custom > li.answered > a:hover {
+    color: #3fad46;
+    background-color: #eeeeee;
 }

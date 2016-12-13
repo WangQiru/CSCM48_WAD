@@ -275,10 +275,7 @@
     <script>
         $(function () {
             var one = two = three = four = changed = false;
-
             var modal;
-
-
 
             $('.optionCorrectCheckbox').click(function(){
                 $('.optionCorrectCheckbox').prop('checked', false);
@@ -393,7 +390,7 @@
                     });
                 }
             });
-            
+
             function OptionModified(type,id){
                 $('.optionModifyMessage').hide();
                 if(type=="update"){

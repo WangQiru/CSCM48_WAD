@@ -7,14 +7,12 @@
 
 <h2>Test List</h2>
 
+<div class="row" style="margin:30px 0 30px 0;">
 
-<div class="row" style="margin-bottom:30px;">
-    @{
-        DateTime TimeNow = DateTime.Now;
-    }
     @foreach (var item in Model)
     {
-        int days = (item.DueDate - TimeNow).Days;
+        if(item.ReleaseDate < DateTime.Now) { 
+        int days = (item.DueDate - DateTime.Now).Days;
         string bg;
         if (days > 3 && days < 5)
         { bg = "yellow"; }
@@ -22,16 +20,14 @@
         { bg = "red"; }
         else
         { bg = "primary"; }
-
-
-        <div class="col-lg-3 col-md-6">
+        <div class="col-lg-6 col-md-12">
             <div class="panel panel-@bg card">
                 <div class="panel-heading">
                     <div class="row">
-                        <div class="col-xs-3">
+                        <div class="col-xs-5">
                             <h4><b>@Html.DisplayFor(modelItem => item.MCQTitle)</b></h4>
                         </div>
-                        <div class="col-xs-9 text-right">
+                        <div class="col-xs-7 text-right">
                             <div class="huge">@Html.DisplayFor(modelItem => item.QuestionCount) Questions</div>
                             <div>Due: @Html.DisplayFor(modelItem => item.DueDate)</div>
                         </div>
@@ -46,5 +42,16 @@
                 </a>
             </div>
         </div>
+        }
+        else
+        {
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-danger card">
+                    <div class="panel-heading">
+                       <h2>abcdwfg</h2>
+                    </div>
+                </div>
+            </div>
+        }
     }
 </div>

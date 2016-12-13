@@ -88,7 +88,8 @@ namespace WebApplication.Controllers
                         if (db.Questions.Count(q => q.MCQID == mcq.ID) > 0)
                             testCount++;
                     }
-                    Session["loginMessage"] = "You have " + testCount + " test(s).";
+                    if (testCount > 0)
+                        Session["loginMessage"] = "You have " + testCount + " test(s).";
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -350,7 +351,8 @@ namespace WebApplication.Controllers
                         if (db.Questions.Count(q => q.MCQID == mcq.ID) > 0)
                             testCount++;
                     }
-                    Session["loginMessage"] = "You have " + testCount + " test(s).";
+                    if (testCount > 0)
+                        Session["loginMessage"] = "You have " + testCount + " test(s).";
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
