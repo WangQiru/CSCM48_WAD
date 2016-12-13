@@ -6,16 +6,21 @@ namespace WebApplication.Models
     {
         public int ID { get; set; }
         [ForeignKey("MCQModels")]
-        public virtual int MCQID { get; set; }
+        public int MCQID { get; set; }
         public virtual MCQModels MCQModels { get; set; }
+
         [ForeignKey("OptionModels")]
-        public virtual int OptionID { get; set; }
+        public int OptionID { get; set; }
         public virtual OptionModels OptionModels { get; set; }
+
         [ForeignKey("QuestionModels")]
-        public virtual int QuestionID { get; set; }
+        public int QuestionID { get; set; }
         public virtual QuestionModels QuestionModels { get; set; }
+
+        public bool correct { get; set; }
+
         [ForeignKey("ApplicationUser")]
         public string UserId { get; set; }
-        public virtual ApplicationUser ApplicationUser { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; } 
     }
 }

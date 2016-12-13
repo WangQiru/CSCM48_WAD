@@ -366,3 +366,41 @@ input[type='radio'] {
     color: #3fad46;
     background-color: #eeeeee;
 }
+
+
+.nav-custom-index > li.current > a{
+    color: #4582ec;
+    background-color: #eeeeee;
+}
+
+.nav-custom-index > li.active.current > a,
+.nav-custom-index > li.current > a:hover,
+.nav-custom-index > li.current > a:focus {
+    color: #ffffff;
+    background-color: #4582ec;
+}
+
+.nav-custom-index > li.overdue > a {
+    color: #d9534f;
+    background-color: #eeeeee;
+}
+
+.nav-custom-index > li.active.overdue > a,
+.nav-custom-index > li.overdue > a:hover,
+.nav-custom-index > li.overdue > a:focus {
+    color: #ffffff;
+    background-color: #d9534f;
+}
+
+.nav-custom-index > li.completed > a {
+    color: #3fad46;
+    background-color: #eeeeee;
+}
+
+.nav-custom-index > li.active.completed > a,
+.nav-custom-index > li.completed > a:hover,
+.nav-custom-index > li.completed > a:focus {
+    color: #ffffff;
+    background-color: #3fad46;
+}
+

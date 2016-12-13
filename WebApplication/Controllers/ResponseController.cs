@@ -46,8 +46,11 @@ namespace WebApplication.Controllers
                 res.OptionID = ans.OptionID;
                 res.QuestionID = ans.QuestionID;
                 res.UserId = userId;
+                res.correct = false;
                 if (!db.Responses.Any(u => u.UserId == userId && u.QuestionID == ans.QuestionID))
                 {
+                    if (db.Options.Where(o => o.ID == ans.OptionID).First().correct)
+                        res.correct = true;
                     db.Responses.Add(res);
                     db.SaveChanges();
                 }

@@ -10,5 +10,6 @@ namespace WebApplication.ViewModels
         public int QuestionCount { get; set; }
         public DateTime ReleaseDate { get; set; }
         public DateTime DueDate { get; set; }
+        public bool completed { get; set; }
     }
 }

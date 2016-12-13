@@ -1,0 +1,90 @@
+﻿@model List<WebApplication.Models.ResponseModels>
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Result</h2>
+
+<div>
+    <h4>@Model.First().MCQModels.Title</h4>
+    <p>@Model.First().MCQModels.Description</p>
+    <hr />
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Question</th>
+                                    <th>Your answer</th>
+                                    <th>Correct answer</th>
+                                    <th>Marks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var counter = 1;
+                                    var correct = 0;
+                                    var color = "";
+                                    var icon = "";
+                                    var mark = 0;
+                                }
+                                @foreach (var response in Model)
+                                {
+                                    if (response.OptionModels.correct)
+                                    {
+                                        color = "success";
+                                        mark = 10;
+                                        icon = "check";
+                                        correct++;
+                                    }
+                                    else
+                                    {
+                                        color = "danger";
+                                        mark = 0;
+                                        icon = "times";
+                                    }
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@response.QuestionModels.Text</td>
+                                        <td class="@color"><i class="fa fa-@icon" aria-hidden="true"></i> @response.OptionModels.Text</td>
+                                        @foreach (var option in response.QuestionModels.OptionsModelsList)
+                                        {
+                                            if (option.correct)
+                                            {
+                                                <td>
+                                                    @option.Text
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
+                                        }
+                                        <td>@mark</td>
+                                    </tr>
+                                    counter++;
+                                }
+
+                            </tbody>
+                            <tfoot>
+                                <tr><td></td><td></td><td></td><td style="text-align:right"><strong>Total:</strong></td><td>@(correct * 10)</td></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Back to Dashboard", "Index", null, new { @class = "btn btn-success pull-right" })
+</p>
+<br />

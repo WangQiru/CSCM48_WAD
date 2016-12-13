@@ -24,5 +24,7 @@ namespace WebApplication.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DueDate { get; set; }
+
+        public bool completed { get; set; }
     }
 }
