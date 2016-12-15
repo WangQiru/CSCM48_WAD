@@ -8,26 +8,7 @@
 <h1>Your Tests</h1>
 
 <div class="row" style="margin:30px 0 30px 0;">
-    <style>
-        .panel-footer-completed {
-            color: #3fad46;
-        }
-
-            .panel-footer-completed:hover {
-                color: #134fb8;
-            }
-
-        .panel-footer-overdue {
-            color: #d9534f;
-        }
-
-            .panel-footer-overdue:hover {
-                color: #134fb8;
-            }
-    </style>
-
     <div class="col-lg-12 col-md-12">
-
         <ul class="nav nav-custom-index nav-pills">
             <li class="current active">
                 <a href="#current" data-toggle="tab" aria-expanded="true">Current</a>
@@ -42,11 +23,20 @@
 
         <div class="tab-content">
             <div class="tab-pane fade active in" id="current">
+                <br />
+                <div class="alert alert-success alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    Colours indicate urgency.
+                </div>
                 <h3>Currently available</h3>
+                @{
+                    bool clearCurrent = true;
+                }
                 @foreach (var item in Model)
                 {
-                    if (item.ReleaseDate < DateTime.Now && !item.completed)
+                    if (item.ReleaseDate < DateTime.Now && item.DueDate > DateTime.Now && !item.completed)
                     {
+                        clearCurrent = false;
                         int days = (item.DueDate - DateTime.Now).Days;
                         string bg;
                         if (days > 3 && days < 5)
@@ -60,16 +50,17 @@
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col-xs-5">
-                                            <h4><b>@Html.DisplayFor(modelItem => item.MCQTitle)</b></h4>
+                                            <h2><b>@Html.DisplayFor(modelItem => item.MCQTitle)</b></h2>
                                         </div>
                                         <div class="col-xs-7 text-right">
                                             <div class="huge">Questions: @Html.DisplayFor(modelItem => item.QuestionCount)</div>
-                                            <div>Due: @Html.DisplayFor(modelItem => item.DueDate)</div>
+                                            <div>Release: @item.ReleaseDate.ToString("yyyy/MM/dd") </div>
+                                            <div>Due: @item.DueDate.ToString("yyyy/MM/dd")</div>
                                         </div>
                                     </div>
                                 </div>
-                                <a href="@Url.Action("Details", "Test", new { id = item.MCQID })">
-                                    <div class="panel-footer panel-footer-overdue">
+                                <a href="@Url.Action("Start", "Test", new { id = item.MCQID })">
+                                    <div class="panel-footer">
                                         <span class="pull-left"><i class="fa fa-play" aria-hidden="true"></i> Start Test</span>
                                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                         <div class="clearfix"></div>
@@ -78,44 +69,53 @@
                             </div>
                         </div>
                     }
-                    else
-                    {
-                        <div class="col-lg-6 col-md-6">
-                            <div class="panel panel-info card">
-                                <div class="panel-heading">
-                                    <h2><i class="fa fa-smile-o" aria-hidden="true"></i> Relax</h2>
-                                </div>
-                                <div class="panel-body">
-                                    <p>You've completed everything.</p>
-                                </div>
+                }
+                @if (clearCurrent)
+                {
+                    <div class="col-lg-6 col-md-6">
+                        <div class="panel panel-info card">
+                            <div class="panel-heading">
+                                <h2><i class="fa fa-smile-o" aria-hidden="true"></i> Relax</h2>
+                            </div>
+                            <div class="panel-body">
+                                <p>You've completed everything.</p>
                             </div>
                         </div>
-                    }
-
+                    </div>
                 }
             </div>
             <div class="tab-pane fade" id="overdue">
+                <br />
+                <div class="alert alert-success alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    You can still view questions for overdue tests.
+                </div>
                 <h3>Tests Overdue</h3>
+                @{
+                    bool clearOverdue = true;
+                }
                 @foreach (var item in Model)
                 {
                     if (item.DueDate < DateTime.Now && !item.completed)
                     {
+                        clearOverdue = false;
                         <div class="col-lg-6 col-md-6">
                             <div class="panel panel-danger card">
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col-xs-5">
-                                            <h4><b>@Html.DisplayFor(modelItem => item.MCQTitle)</b></h4>
+                                            <h2><b>@Html.DisplayFor(modelItem => item.MCQTitle)</b></h2>
                                         </div>
                                         <div class="col-xs-7 text-right">
                                             <div class="huge">Questions: @Html.DisplayFor(modelItem => item.QuestionCount)</div>
-                                            <div>Due: @Html.DisplayFor(modelItem => item.DueDate)</div>
+                                            <div>Release: @item.ReleaseDate.ToString("yyyy/MM/dd") </div>
+                                            <div>Due: @item.DueDate.ToString("yyyy/MM/dd")</div>
                                         </div>
                                     </div>
                                 </div>
-                                <a href="@Url.Action("Details", "Test", new { id = item.MCQID })">
+                                <a href="@Url.Action("Start", "Test", new { id = item.MCQID })">
                                     <div class="panel-footer">
-                                        <span class="pull-left"><i class="fa fa-th-list" aria-hidden="true"></i> View Result</span>
+                                        <span class="pull-left"><i class="fa fa-th-list" aria-hidden="true"></i> View Questions</span>
                                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                         <div class="clearfix"></div>
                                     </div>
@@ -123,38 +123,47 @@
                             </div>
                         </div>
                     }
-                    else
-                    {
-                        <div class="col-lg-6 col-md-6">
-                            <div class="panel panel-info card">
-                                <div class="panel-heading">
-                                    <h2><i class="fa fa-smile-o" aria-hidden="true"></i> Relax </h2>
-                                </div>
-                                <div class="panel-body">
-                                    <p>You've completed everything.</p>
-                                </div>
+                }
+                @if (clearOverdue)
+                {
+                    <div class="col-lg-6 col-md-6">
+                        <div class="panel panel-info card">
+                            <div class="panel-heading">
+                                <h2><i class="fa fa-smile-o" aria-hidden="true"></i> Relax</h2>
+                            </div>
+                            <div class="panel-body">
+                                <p>Nothing here yet.</p>
                             </div>
                         </div>
-                    }
-
+                    </div>
                 }
             </div>
             <div class="tab-pane fade" id="completed">
+                <br />
+                <div class="alert alert-success alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    Results will be released once tests were due.
+                </div>
                 <h3>Tests Completed</h3>
+                @{
+                    bool clearCompleted = true; 
+                    }
                 @foreach (var item in Model)
                 {
-                    if (item.completed)
+                    if (item.completed && item.DueDate < DateTime.Now)
                     {
+                        clearCompleted = false;
                         <div class="col-lg-6 col-md-6">
                             <div class="panel panel-success card">
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col-xs-5">
-                                            <h4><b>@Html.DisplayFor(modelItem => item.MCQTitle)</b></h4>
+                                            <h2><b>@Html.DisplayFor(modelItem => item.MCQTitle)</b></h2>
                                         </div>
                                         <div class="col-xs-7 text-right">
                                             <div class="huge">Questions: @Html.DisplayFor(modelItem => item.QuestionCount)</div>
-                                            <div>Due: @Html.DisplayFor(modelItem => item.DueDate)</div>
+                                            <div>Release: @item.ReleaseDate.ToString("yyyy/MM/dd") </div>
+                                            <div>Due: @item.DueDate.ToString("yyyy/MM/dd")</div>
                                         </div>
                                     </div>
                                 </div>
@@ -168,22 +177,22 @@
                                 </a>
                             </div>
                         </div>
-                    }
-                    else
-                    {
-                        <div class="col-lg-6 col-md-6">
-                            <div class="panel panel-info card">
-                                <div class="panel-heading">
-                                    <h2><i class="fa fa-smile-o" aria-hidden="true"></i> Relax</h2>
-                                </div>
-                                <div class="panel-body">
-                                    <p>You've completed everything.</p>
-                                </div>
-                            </div>
+                    }                    
+                }
+                @if (clearCompleted)
+                {
+                <div class="col-lg-6 col-md-6">
+                    <div class="panel panel-info card">
+                        <div class="panel-heading">
+                            <h2><i class="fa fa-smile-o" aria-hidden="true"></i> Relax</h2>
                         </div>
-                    }
+                        <div class="panel-body">
+                            <p>Nothing here yet.</p>
+                        </div>
+                    </div>
+                </div>
                 }
             </div>
         </div>
     </div>
-</div>
+    </div>

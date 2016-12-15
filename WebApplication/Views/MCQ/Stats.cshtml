@@ -1,0 +1,107 @@
+﻿@model WebApplication.Models.MCQModels
+
+@{
+    ViewBag.Title = "Test Stats";
+}
+
+<h2>Results for @Model.Title</h2>
+@Html.AntiForgeryToken()
+
+<div class="row">
+    <div class="col-lg-10 col-lg-push-1">
+        <canvas id="bar-chart" width="600" height="350"></canvas>
+    </div>
+</div>
+<p>
+@Html.ActionLink("Back to Dashboard", "Index", null, new { @class = "btn btn-success pull-right" })
+    <br />
+</p>
+@section Scripts {
+    <script>
+        var questionNo=[];
+        var correct=[];
+        var incorrect=[];
+        var max = 0;
+
+        $.ajax({
+            type: 'GET',
+            url: "@Url.Action("AjaxRetrieve", "MCQ")",
+            data: {id:@Model.ID},
+            success: function (res) {
+                for(var i=0;i<res.length;i++){
+                    questionNo.push("Question "+res[i].questionNo);
+                    correct.push(res[i].correct);
+                    incorrect.push(res[i].incorrect);
+
+                    if(res[i].correct>max)
+                        max=res[i].correct;
+                    if(res[i].incorrect>max)
+                        max=res[i].incorrect;
+                }
+
+
+                var bar_ctx = $('#bar-chart');
+                var bar_chart = new Chart(bar_ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: questionNo,
+                        datasets: [
+                        {
+                            label: 'Correct',
+                            data: correct,
+                            backgroundColor: "#5cb85c",
+                            hoverBackgroundColor: "#5cb85c",
+                            hoverBorderWidth: 2,
+                            hoverBorderColor: 'lightgrey'
+                        },
+                        {
+                            label: 'Incorrect',
+                            data: incorrect,
+                            backgroundColor: "#d9534f",
+                            hoverBackgroundColor: "#d9534f",
+                            hoverBorderWidth: 2,
+                            hoverBorderColor: 'lightgrey'
+                        },
+                        ]
+                    },
+                    options: {
+                        animation: {
+                            duration: 10,
+                        },
+                        tooltips: {
+                            mode: 'label',
+                            callbacks: {
+                                label: function (tooltipItem, data) {
+                                    return data.datasets[tooltipItem.datasetIndex].label + ": " + tooltipItem.yLabel;
+                                }
+                            }
+                        },
+                        scales: {
+                            xAxes: [{
+                                stacked: true,
+                                gridLines: { display: false },
+                            }],
+                            yAxes: [{
+                                stacked: true,
+                                ticks: {
+                                    scaleSteps: max,
+                                    stepSize: 1,
+                                    scaleStepWidth: 1,
+                                    scaleStartValue: 0,
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Number of responses'
+                                },
+                            }],
+                        },
+                        legend: { display: true }
+                    }
+                });
+            },
+            error: function (emp) {
+                alert('Your Internet connection might be unstable, please try again.');
+            }
+        });
+    </script>
+}

@@ -7,6 +7,7 @@
     /** Init for popovers**/
     $('[data-toggle="popover"]').popover();
 
+
     /** Test-Start **/
     /** Use buttons to naviagte nav-pills for taking the test **/
     $('.nextButton').click(function () {

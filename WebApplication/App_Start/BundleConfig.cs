@@ -23,6 +23,7 @@ namespace WebApplication
                       "~/Scripts/bootstrap.js",                      
                       "~/Scripts/toastr.js",
                       "~/Scripts/respond.js",
+                      "~/Scripts/Chart.js",
                       "~/Scripts/site.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

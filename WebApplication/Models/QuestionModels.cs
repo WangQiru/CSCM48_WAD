@@ -12,7 +12,7 @@ namespace WebApplication.Models
         public virtual MCQModels MCQModels { get; set; }
         [Required]
         public string Text { get; set; }
-        public List<OptionModels> OptionsModelsList { get; set; }
+        public virtual List<OptionModels> OptionsModelsList { get; set; }
     }
 
 }

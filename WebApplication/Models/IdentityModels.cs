@@ -20,12 +20,12 @@ namespace WebApplication.Models
                 manager.AddClaim(this.Id, (new Claim("Permission", "CRUD MCQ")));
                 manager.AddClaim(this.Id, (new Claim("Permission", "Attempt Tests")));
             }
-            else if (this.StudentNo == 999999 && !manager.IsInRole(this.Id, "Lecturer"))
+            else if (this.StudentNo == 9999 && !manager.IsInRole(this.Id, "Lecturer"))
             {
                 manager.AddToRole(this.Id, "Lecturer");
                 manager.AddClaim(this.Id, (new Claim("May-I-Cheat-As-A-Student", "Yes")));
             }
-            else if (this.StudentNo > 0 && !manager.IsInRole(this.Id, "Student"))
+            else if (this.StudentNo >= 0 && !manager.IsInRole(this.Id, "Student"))
             {
                 manager.AddToRole(this.Id, "Student");
                 manager.AddClaim(this.Id, (new Claim("Role", "Student")));

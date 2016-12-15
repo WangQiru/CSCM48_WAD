@@ -81,12 +81,15 @@ namespace WebApplication.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    ApplicationUser user = UserManager.FindByName(model.UserName);
+                    string userId = user.Id;
                     int testCount = 0;
                     List<MCQModels> mCQModels = db.MCQs.Where(o => o.ReleaseDate <= DateTime.Now && o.DueDate >= DateTime.Now).ToList();
                     foreach (var mcq in mCQModels)
                     {
-                        if (db.Questions.Count(q => q.MCQID == mcq.ID) > 0)
+                        if (db.Questions.Count(q => q.MCQID == mcq.ID) > 0 && db.Responses.Count(r => r.UserId == userId && r.MCQID == mcq.ID) == 0)
                             testCount++;
+
                     }
                     if (testCount > 0)
                         Session["loginMessage"] = "You have " + testCount + " test(s).";
@@ -344,11 +347,12 @@ namespace WebApplication.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    string userId = SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId();
                     int testCount = 0;
                     List<MCQModels> mCQModels = db.MCQs.Where(o => o.ReleaseDate <= DateTime.Now && o.DueDate >= DateTime.Now).ToList();
                     foreach (var mcq in mCQModels)
                     {
-                        if (db.Questions.Count(q => q.MCQID == mcq.ID) > 0)
+                        if (db.Questions.Count(q => q.MCQID == mcq.ID) > 0 && db.Responses.Count(r => r.UserId == userId && r.MCQID == mcq.ID) == 0)
                             testCount++;
                     }
                     if (testCount > 0)
@@ -395,7 +399,7 @@ namespace WebApplication.Controllers
                     if (result.Succeeded)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return RedirectToAction("SetPassword", "Manage");
+                        return RedirectToAction("Index", "Home");
                     }
                 }
                 AddErrors(result);

@@ -20,8 +20,8 @@ namespace WebApplication.Controllers
             return View(db.MCQs.ToList());
         }
 
-        // GET: MCQ/Details/5
-        public ActionResult Details(int? id)
+        [Schaeflein.Community.MVC5AuthZPolicy.Authorize(Policy = "Lecturer")]
+        public ActionResult Stats(int? id)
         {
             if (id == null)
             {
@@ -32,7 +32,45 @@ namespace WebApplication.Controllers
             {
                 return HttpNotFound();
             }
+            
             return View(mCQModels);
+        }
+
+        public JsonResult AjaxRetrieve(int id)
+        {
+            List<QuestionModels> questionModelsList = db.Questions.Where(r => r.MCQID == id).ToList();
+            List<Result> results = new List<Result>();
+
+            int questionNO = 1;
+            foreach (var question in questionModelsList)
+            {                
+                int correct = 0;
+                int incorrect = 0;
+                foreach (var response in db.Responses.Where(r => r.QuestionID == question.ID).ToList())
+                {
+                    if (response.correct)
+                        correct++;
+                    else
+                        incorrect++;
+                }
+
+                var result = new Result();
+                result.questionNo = questionNO;
+                result.correct = correct;
+                result.incorrect = incorrect;
+                results.Add(result);
+
+                questionNO++;
+            }
+
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
+        public class Result
+        {
+            public int questionNo { get; set; }
+            public int correct { get; set; }
+            public int incorrect { get; set; }
         }
 
         // GET: MCQ/Create

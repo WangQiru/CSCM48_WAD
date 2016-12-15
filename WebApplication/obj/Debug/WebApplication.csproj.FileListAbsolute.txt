@@ -145,6 +145,10 @@ D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.dll
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.pdb
 D:\Git\WebApplication\WebApplication\bin\Schaeflein.Community.MVC5AuthZPolicy.dll
 D:\Git\WebApplication\WebApplication\bin\Schaeflein.Community.MVC5AuthZPolicy.pdb
-D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.csprojResolveAssemblyReference.cache
-D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.MCQ_bool_completed.resources
+D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.fluentvalidation.resources
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.csproj.GenerateResource.Cache
+D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.fluentvalidation2.resources
+D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.test.resources
+D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.test1.resources
+D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.test2.resources
+D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.seed_user.resources

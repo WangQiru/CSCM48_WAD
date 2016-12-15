@@ -184,7 +184,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ClaimsAuthorizeAttribute.cs" />
+    <Compile Include="AttributeValidators\ClaimsAuthorizeAttribute.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -196,6 +196,30 @@
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612150113024_fluentvalidation.cs" />
+    <Compile Include="Migrations\201612150113024_fluentvalidation.Designer.cs">
+      <DependentUpon>201612150113024_fluentvalidation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612150114023_fluentvalidation-2.cs" />
+    <Compile Include="Migrations\201612150114023_fluentvalidation-2.Designer.cs">
+      <DependentUpon>201612150114023_fluentvalidation-2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612150557061_test.cs" />
+    <Compile Include="Migrations\201612150557061_test.Designer.cs">
+      <DependentUpon>201612150557061_test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612150600154_test1.cs" />
+    <Compile Include="Migrations\201612150600154_test1.Designer.cs">
+      <DependentUpon>201612150600154_test1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612150601312_test2.cs" />
+    <Compile Include="Migrations\201612150601312_test2.Designer.cs">
+      <DependentUpon>201612150601312_test2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612150602495_seed_user.cs" />
+    <Compile Include="Migrations\201612150602495_seed_user.Designer.cs">
+      <DependentUpon>201612150602495_seed_user.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -232,6 +256,8 @@
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Chart.js" />
+    <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -282,7 +308,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\MCQ\Create.cshtml" />
     <Content Include="Views\MCQ\Delete.cshtml" />
-    <Content Include="Views\MCQ\Details.cshtml" />
+    <Content Include="Views\MCQ\Stats.cshtml" />
     <Content Include="Views\MCQ\Edit.cshtml" />
     <Content Include="Views\MCQ\Index.cshtml" />
     <Content Include="Views\Option\Create.cshtml" />
@@ -310,6 +336,26 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201612150113024_fluentvalidation.resx">
+      <DependentUpon>201612150113024_fluentvalidation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612150114023_fluentvalidation-2.resx">
+      <DependentUpon>201612150114023_fluentvalidation-2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612150557061_test.resx">
+      <DependentUpon>201612150557061_test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612150600154_test1.resx">
+      <DependentUpon>201612150600154_test1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612150601312_test2.resx">
+      <DependentUpon>201612150601312_test2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612150602495_seed_user.resx">
+      <DependentUpon>201612150602495_seed_user.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -17,15 +17,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("BetterBoard", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     @if (User.IsInRole("Lecturer"))
                     {
-                        <li>@Html.ActionLink("MCQ", "Index", "MCQ")</li>
-                        <li>@Html.ActionLink("Test", "Index", "Test")</li>
+                        <li>@Html.ActionLink("Manage Tests", "Index", "MCQ")</li>
+                        <li>@Html.ActionLink("View Tests as a student", "Index", "Test")</li>
                     }
                     else if (User.IsInRole("Student"))
                     {
