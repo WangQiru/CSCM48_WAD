@@ -235,10 +235,13 @@
     <Compile Include="ViewModels\QuestionOptionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\img\banner-bg.jpg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\img\intro-bg.jpg" />
+    <Content Include="Content\img\slowboard1.jpg" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
@@ -325,6 +328,7 @@
     <Content Include="Views\Response\Details.cshtml" />
     <Content Include="Views\Response\Index.cshtml" />
     <Content Include="Views\Test\Result.cshtml" />
+    <Content Include="Views\Account\_CustomExternalLoginsListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

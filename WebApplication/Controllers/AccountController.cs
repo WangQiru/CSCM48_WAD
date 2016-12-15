@@ -93,6 +93,7 @@ namespace WebApplication.Controllers
                     }
                     if (testCount > 0)
                         Session["loginMessage"] = "You have " + testCount + " test(s).";
+                    Session["testCount"] = testCount;
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -357,6 +358,7 @@ namespace WebApplication.Controllers
                     }
                     if (testCount > 0)
                         Session["loginMessage"] = "You have " + testCount + " test(s).";
+                    Session["testCount"] = testCount;
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
