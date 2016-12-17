@@ -5,37 +5,67 @@
 }
 
 <h2>List of MCQ Tests</h2>
-
+@Html.AntiForgeryToken()
 <p>
     @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
 </p>
 
-    <div class="row">
-        <hr />
-        @foreach (var item in Model)
-        {
-            <div class="col-lg-6 col-md-6">
-                <div class="panel panel-primary card">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-5">
-                                <h2><b>@Html.DisplayFor(modelItem => item.Title)</b></h2>
-                            </div>
-                            <div class="col-xs-7 text-right">
-                                <div class="huge">@Html.DisplayFor(modelItem => item.Description)</div>
-                                <div>Release: @item.ReleaseDate.ToString("yyyy/MM/dd") </div>
-                                <div>Due: @item.DueDate.ToString("yyyy/MM/dd")</div>
-                            </div>
+<div class="row">
+    <hr />
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-6 col-md-6">
+            <div class="panel panel-primary card">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <h2><b>@Html.DisplayFor(modelItem => item.Title)</b></h2>
+                        </div>
+                        <div class="col-xs-7 text-right">
+                            <div>@Html.DisplayFor(modelItem => item.Description)</div>
+                            <div>Release: @item.ReleaseDate.ToString("yyyy/MM/dd") </div>
+                            <div>Due: @item.DueDate.ToString("yyyy/MM/dd")</div>
                         </div>
                     </div>
-                    <div class="panel-footer" style="text-align:right">
-                            <div class="form-actions no-color">
-                                @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink("View Stats", "Stats", new { id = item.ID }, new { @class = "btn btn-info" })
-                                @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
-                            </div>
+                </div>
+                <div class="panel-footer" style="text-align:right">
+                    <div class="form-actions no-color">
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-primary" })
+
+                        @Html.ActionLink("View Stats", "Stats", new { id = item.ID }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
                     </div>
                 </div>
             </div>
+        </div>
+    }
+</div>
+@section scripts {
+    <script>
+    @if (Request.IsAuthenticated)
+       {<text>
+        $('.body-content').addClass('container');
+
+        $.ajax({
+            type: 'GET',
+            url: "@Url.Action("AjaxRetrieve", "Test")",
+            success: function (res) {
+                $('.testCount').text(res);
+            },
+            error: function (emp) {
+                alert('Your Internet connection might be unstable, please refresh and try again.');
+            }
+        });
+
+        $.ajax({
+            type: 'GET',
+            url: "@Url.Action("AjaxRetrieveUserName", "Home")",
+            success: function (res) {
+                $('a[href="/Manage"]').text("Hi " + res);
+            }
+        });
+
+        </text>
         }
-    </div>
+    </script>
+}

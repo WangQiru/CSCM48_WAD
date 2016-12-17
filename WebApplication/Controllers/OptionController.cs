@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Security.Claims;
-using System.Web;
 using System.Web.Mvc;
 using WebApplication.Attribute;
 using WebApplication.Models;
@@ -23,6 +18,8 @@ namespace WebApplication.Controllers
             return View(options.ToList());
         }
 
+
+        //Update an option via Ajax
         [ValidateAntiForgeryToken]
         [ClaimsAuthorize(ClaimTypes.Role, "Lecturer")]
         public JsonResult AjaxUpdate(string text, string id, bool correct)

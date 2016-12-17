@@ -3,6 +3,7 @@ using System.Web.Mvc;
 
 namespace WebApplication.Controllers
 {
+    [AllowAnonymous]
     public class ErrorPageController : Controller
     {
         public ActionResult Error(int statusCode, string statusMsg, Exception exception)

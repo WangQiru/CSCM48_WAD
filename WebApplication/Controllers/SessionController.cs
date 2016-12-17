@@ -14,6 +14,7 @@ namespace WebApplication.Controllers
             return View();
         }
 
+        //Clear the respective session via Ajax
         [ValidateAntiForgeryToken]
         public JsonResult ClearSession(string type)
         {

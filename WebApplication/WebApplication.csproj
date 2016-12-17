@@ -184,7 +184,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="AttributeValidators\ClaimsAuthorizeAttribute.cs" />
+    <Compile Include="Authorization\ClaimsAuthorizeAttribute.cs" />
+    <Compile Include="Controllers\AnouncementModelsController.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -217,12 +218,13 @@
     <Compile Include="Migrations\201612150601312_test2.Designer.cs">
       <DependentUpon>201612150601312_test2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201612150602495_seed_user.cs" />
-    <Compile Include="Migrations\201612150602495_seed_user.Designer.cs">
-      <DependentUpon>201612150602495_seed_user.cs</DependentUpon>
+    <Compile Include="Migrations\201612161933033_anouncement.cs" />
+    <Compile Include="Migrations\201612161933033_anouncement.Designer.cs">
+      <DependentUpon>201612161933033_anouncement.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AnouncementModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\QuestionModels.cs" />
@@ -319,16 +321,17 @@
     <Content Include="Views\Option\Details.cshtml" />
     <Content Include="Views\Option\Edit.cshtml" />
     <Content Include="Views\Option\Index.cshtml" />
-    <Content Include="Views\Test\Create.cshtml" />
-    <Content Include="Views\Test\Delete.cshtml" />
-    <Content Include="Views\Test\Details.cshtml" />
-    <Content Include="Views\Test\Edit.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Test\Start.cshtml" />
     <Content Include="Views\Response\Details.cshtml" />
     <Content Include="Views\Response\Index.cshtml" />
     <Content Include="Views\Test\Result.cshtml" />
     <Content Include="Views\Account\_CustomExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\AnouncementModels\Create.cshtml" />
+    <Content Include="Views\AnouncementModels\Delete.cshtml" />
+    <Content Include="Views\AnouncementModels\Details.cshtml" />
+    <Content Include="Views\AnouncementModels\Edit.cshtml" />
+    <Content Include="Views\AnouncementModels\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -357,8 +360,8 @@
     <EmbeddedResource Include="Migrations\201612150601312_test2.resx">
       <DependentUpon>201612150601312_test2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612150602495_seed_user.resx">
-      <DependentUpon>201612150602495_seed_user.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201612161933033_anouncement.resx">
+      <DependentUpon>201612161933033_anouncement.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -6,7 +6,7 @@
 }
 
 <h1>Your Tests</h1>
-
+@Html.AntiForgeryToken()
 <div class="row" style="margin:30px 0 30px 0;">
     <div class="col-lg-12 col-md-12">
         <ul class="nav nav-custom-index nav-pills">
@@ -196,3 +196,17 @@
         </div>
     </div>
     </div>
+@section scripts {
+    <script>
+    $(function() {
+    $.ajax({
+        type: 'GET',
+        data: { __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() },
+        url: "@Url.Action("AjaxRetrieveUserName", "Home")",
+        success: function (res) {
+            $('a[href="/Manage"]').text("Hi " + res);
+        }
+    });
+    });
+    </script>
+    }

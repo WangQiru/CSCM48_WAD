@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -127,6 +128,19 @@ namespace WebApplication.Controllers
         }
 
 
+        public JsonResult AjaxRetrieve()
+        {
+            string userId = User.Identity.GetUserId();
+            int testCount = 0;
+            List<MCQModels> mCQModels = db.MCQs.Where(o => o.ReleaseDate <= DateTime.Now && o.DueDate >= DateTime.Now).ToList();
+            foreach (var mcq in mCQModels)
+            {
+                if (db.Questions.Count(q => q.MCQID == mcq.ID) > 0 && db.Responses.Count(r => r.UserId == userId && r.MCQID == mcq.ID) == 0)
+                    testCount++;
+            }
+
+            return Json(testCount, JsonRequestBehavior.AllowGet);
+        }
 
         protected override void Dispose(bool disposing)
         {

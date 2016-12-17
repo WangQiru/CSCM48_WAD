@@ -34,7 +34,7 @@ namespace WebApplication.Controllers
             return View(responseModels);
         }
 
-
+        //Using ajax to accept student submissions
         [ValidateAntiForgeryToken]
         public JsonResult AjaxCreate(List<Answer> answerList)
         {
@@ -63,6 +63,7 @@ namespace WebApplication.Controllers
             return Json("Response from create");
         }
 
+        //An object for temporarily holding data from AjaxCreate() 
         public class Answer
         {
             public int MCQID { get; set; }

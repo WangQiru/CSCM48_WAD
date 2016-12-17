@@ -1,11 +1,10 @@
 namespace WebApplication.Migrations
 {
     using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
-    using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
+    using System.Security.Claims;
 
     internal sealed class Configuration : DbMigrationsConfiguration<WebApplication.Models.ApplicationDbContext>
     {
@@ -29,65 +28,36 @@ namespace WebApplication.Migrations
             //    );
             //
 
-            /**
+            var userStore = new UserStore<ApplicationUser>(context);
+            var userManager = new UserManager<ApplicationUser>(userStore);
 
-            context.Configuration.LazyLoadingEnabled = true;
+            for (int i = 0; i < 6; i++)
+            {
+                var userToInsert = new ApplicationUser { UserName = i.ToString(), Email = "Student" + i + "@email.com", StudentNo = i, Name = "Student " + i };
+                                
+                var result = userManager.Create(userToInsert, "password");
 
-            var passwordHash = new PasswordHasher();
-            string password = passwordHash.HashPassword("password");
-
-            context.Users.AddOrUpdate(u => u.UserName,
-                new ApplicationUser
+                if (result.Succeeded)
                 {
-                    UserName = "123456",
-                    Email = "Lecturer1@email.com",
-                    PasswordHash = password,
-                    LectureNo = 123456
-                },
-                new ApplicationUser
-                {
-                    UserName = "9999",
-                    Email = "Student9999@email.com",
-                    PasswordHash = password,
-                    StudentNo = 9999
-                },
-                                new ApplicationUser
-                                {
-                                    UserName = "1",
-                                    Email = "Student1@email.com",
-                                    PasswordHash = password,
-                                    StudentNo = 1
-                                },
-                                                new ApplicationUser
-                                                {
-                                                    UserName = "2",
-                                                    Email = "Student2@email.com",
-                                                    PasswordHash = password,
-                                                    StudentNo = 2
-                                                },
-                                                                new ApplicationUser
-                                                                {
-                                                                    UserName = "3",
-                                                                    Email = "Student3@email.com",
-                                                                    PasswordHash = password,
-                                                                    StudentNo = 3
-                                                                },
-                                                                new ApplicationUser
-                                                                {
-                                                                    UserName = "5",
-                                                                    Email = "Student5@email.com",
-                                                                    PasswordHash = password,
-                                                                    StudentNo = 5
-                                                                },
-                                                                new ApplicationUser
-                                                                {
-                                                                    UserName = "4",
-                                                                    Email = "Student4@email.com",
-                                                                    PasswordHash = password,
-                                                                    StudentNo = 4
-                                                                }
-                );
-    **/
+                    userManager.AddToRole(userToInsert.Id, "Student");
+                    userManager.AddClaim(userToInsert.Id, (new Claim("Role", "Student")));
+                    userManager.AddClaim(userToInsert.Id, (new Claim("Permission", "Attempt Tests")));
+                }
+
+            }
+
+            int lectureNO = 100;
+
+            var lecturer = new ApplicationUser { UserName = lectureNO.ToString(), Email = "Lecturer1@email.com", LectureNo = lectureNO, Name = "Lecturer 1 "};
+
+            var result2 = userManager.Create(lecturer, "password");
+            if (result2.Succeeded)
+            {
+                userManager.AddToRole(lecturer.Id, "Lecturer");
+                userManager.AddClaim(lecturer.Id, (new Claim("Role", "Lecturer")));
+                userManager.AddClaim(lecturer.Id, (new Claim("Permission", "CRUD MCQ")));
+                userManager.AddClaim(lecturer.Id, (new Claim("Permission", "Attempt Tests")));
+            }
         }
     }
 }

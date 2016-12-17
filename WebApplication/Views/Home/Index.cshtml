@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Home Page";
 }
+@Html.AntiForgeryToken()
 @if (!Request.IsAuthenticated)
 {
     <div class="intro-header">
@@ -63,50 +64,50 @@
 }
 else
 {
-    <div class="content-section-a">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-6">
-                    <div class="panel panel-primary card">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-5">
-                                    <h2><b>Complete your tests</b></h2>
-                                </div>
-                                <div class="col-xs-7 text-right">
-                                    <div class="huge">@Session["testCount"]</div>
-                                    <div>Release: 2016/12/03 </div>
-                                    <div>Due: 2016/12/25</div>
-                                </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="panel panel-primary card">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <h1><b>Tests</b></h1>
+                            </div>
+                            <div class="col-xs-7 text-right">
+                                <div class="huge">Remain: <span class="testCount">@Session["testCount"]</span></div>
                             </div>
                         </div>
-                        <a href="@Url.Action("Index", "Test")">
-                            <div class="panel-footer">
-                                <span class="pull-left"><i class="fa fa-play" aria-hidden="true"></i> Start Test</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
                     </div>
+                    <a href="@Url.Action("Index", "Test")">
+                        <div class="panel-footer">
+                            <span class="pull-left"><i class="fa fa-play" aria-hidden="true"></i> Start Test</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
                 </div>
+            </div>
+            <div class="col-lg-5 col-sm-6 ">
+                <h3>Welcome back, <span class="username"></span></h3>
+                <h4><span class="weatherInfo"></span></h4>
             </div>
         </div>
     </div>
 
-    <div class="content-section-b">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-5 col-lg-offset-1 col-sm-push-6 col-sm-6">
-                    <hr class="section-heading-spacer">
-                    <div class="clearfix"></div>
-                    <h2 class="section-heading">Lost focus <br />because of bad UX?</h2>
-                </div>
-                <div class="col-lg-5 col-sm-pull-6  col-sm-6">
-                    <img class="img-responsive" src="~/Content/img/slowboard1.jpg" alt="">
+        <div class="content-section-b">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 col-lg-offset-1 col-sm-push-6 col-sm-6">
+                        <hr class="section-heading-spacer">
+                        <div class="clearfix"></div>
+                        <h2 class="section-heading">Lost focus <br />because of bad UX?</h2>
+                    </div>
+                    <div class="col-lg-5 col-sm-pull-6  col-sm-6">
+                        <img class="img-responsive" src="~/Content/img/slowboard1.jpg" alt="">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 }
 @section scripts {
@@ -115,6 +116,31 @@ else
         @if (Request.IsAuthenticated)
         {<text>
         $('.body-content').addClass('container');
+
+        $.ajax({
+            type: 'GET',
+            url: "@Url.Action("AjaxRetrieve", "Test")",
+            success: function (res) {
+                $('.testCount').text(res);
+            },
+            error: function (emp) {
+                alert('Your Internet connection might be unstable, please refresh and try again.');
+            }
+        });
+
+        $.ajax({
+            type: 'GET',
+            url: "@Url.Action("AjaxRetrieveUserName", "Home")",
+            success: function (res) {
+                $('a[href="/Manage"]').text("Hi " + res);
+                $('.username').text(res);
+            }
+        });
+
+        $.getJSON("http://api.openweathermap.org/data/2.5/forecast/daily?q=Swansea&mode=json&units=metric&cnt=1&APPID=f72cac1a55c68953f7b20e1a5a65ee74", function (result) {
+            $('.weatherInfo').text("Swansea weather today: " + result.list[0].weather[0].description + " with a temperature of " + result.list[0].temp.day + "\xB0");
+        });
+
         </text>
         }
 
@@ -139,7 +165,8 @@ else
                 data: data
             });
         }
-
         </text>}
+
+
     </script>
 }

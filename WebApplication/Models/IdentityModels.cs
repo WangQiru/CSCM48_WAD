@@ -12,7 +12,10 @@ namespace WebApplication.Models
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
+
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+
+            /**
             if (this.LectureNo > 0 && !manager.IsInRole(this.Id, "Lecturer"))
             {
                 manager.AddToRole(this.Id, "Lecturer");
@@ -27,12 +30,16 @@ namespace WebApplication.Models
             }
             else if (this.StudentNo >= 0 && !manager.IsInRole(this.Id, "Student"))
             {
+  
+            }
+    **/
+            // Add custom user claims here
+            if (this.StudentNo >= 0 && !manager.IsInRole(this.Id, "Student"))
+            {
                 manager.AddToRole(this.Id, "Student");
                 manager.AddClaim(this.Id, (new Claim("Role", "Student")));
                 manager.AddClaim(this.Id, (new Claim("Permission", "Attempt Tests")));
             }
-
-            // Add custom user claims here
             return userIdentity;
         }
 
@@ -57,5 +64,6 @@ namespace WebApplication.Models
         public DbSet<QuestionModels> Questions { get; set; }
         public DbSet<OptionModels> Options { get; set; }
         public DbSet<ResponseModels> Responses { get; set; }
+        public DbSet<AnouncementModels> Anouncements { get; set; }
     }
 }

@@ -24,9 +24,9 @@
         var max = 0;
 
         $.ajax({
-            type: 'GET',
+            type: 'POST',
             url: "@Url.Action("AjaxRetrieve", "MCQ")",
-            data: {id:@Model.ID},
+            data: {id:@Model.ID,__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()},
             success: function (res) {
                 for(var i=0;i<res.length;i++){
                     questionNo.push("Question "+res[i].questionNo);

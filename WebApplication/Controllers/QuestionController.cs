@@ -17,7 +17,7 @@ namespace WebApplication.Controllers
             return View(questions.ToList());
         }
 
-
+        // Create a question and 4 options via Ajax
         [ValidateAntiForgeryToken]
         [Schaeflein.Community.MVC5AuthZPolicy.Authorize(Policy = "Lecturer")]
         public JsonResult AjaxCreate(QuestionModels questionModels)
@@ -50,19 +50,20 @@ namespace WebApplication.Controllers
             return Json("Response from create");
         }
 
-
+        //Update a question via Ajax
         [ValidateAntiForgeryToken]
         [Schaeflein.Community.MVC5AuthZPolicy.Authorize(Policy = "Lecturer")]
-        public JsonResult AjaxUpdate(string text, string id)
+        public JsonResult AjaxUpdate (string text, string id)
         {
             QuestionModels questionModels = db.Questions.Find(int.Parse(id));
-            questionModels.Text = text;
+            questionModels.Text = Server.HtmlEncode(text);
             db.Entry(questionModels).State = EntityState.Modified;
             db.SaveChanges();
 
             return Json("Response from update");
         }
 
+        //Delete a question via Ajax
         [ValidateAntiForgeryToken]
         [Schaeflein.Community.MVC5AuthZPolicy.Authorize(Policy = "Lecturer")]
         public JsonResult AjaxDelete(string id)

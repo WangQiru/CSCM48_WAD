@@ -1,4 +1,5 @@
-﻿#registerLink, #loginLink , #logoutLink{
+﻿
+#registerLink, #loginLink , #logoutLink{
     color: #ffffff;
 }
 
@@ -22,6 +23,10 @@ body {
 
 .dl-horizontal dt {
     white-space: normal;
+}
+
+.huge {
+  font-size: 40px;
 }
 
 input,

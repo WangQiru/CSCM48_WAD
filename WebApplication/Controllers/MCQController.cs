@@ -9,18 +9,17 @@ using WebApplication.ViewModels;
 
 namespace WebApplication.Controllers
 {
+    [Schaeflein.Community.MVC5AuthZPolicy.Authorize(Policy = "Lecturer")]
     public class MCQController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: MCQ
-        [Schaeflein.Community.MVC5AuthZPolicy.Authorize(Policy = "Lecturer")]
         public ActionResult Index()
         {
             return View(db.MCQs.ToList());
         }
-
-        [Schaeflein.Community.MVC5AuthZPolicy.Authorize(Policy = "Lecturer")]
+        
         public ActionResult Stats(int? id)
         {
             if (id == null)
@@ -36,6 +35,8 @@ namespace WebApplication.Controllers
             return View(mCQModels);
         }
 
+        //Retrieve a test via Ajax
+        [ValidateAntiForgeryToken]
         public JsonResult AjaxRetrieve(int id)
         {
             List<QuestionModels> questionModelsList = db.Questions.Where(r => r.MCQID == id).ToList();
@@ -74,7 +75,6 @@ namespace WebApplication.Controllers
         }
 
         // GET: MCQ/Create
-        [Schaeflein.Community.MVC5AuthZPolicy.Authorize(Policy = "Lecturer")]
         public ActionResult Create()
         {
             return View();
@@ -84,7 +84,6 @@ namespace WebApplication.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Schaeflein.Community.MVC5AuthZPolicy.Authorize(Policy = "Lecturer")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Title,Description,ReleaseDate,DueDate")] MCQModels mCQModels)
         {
@@ -99,7 +98,6 @@ namespace WebApplication.Controllers
         }
 
         // GET: MCQ/Edit/5
-        [Schaeflein.Community.MVC5AuthZPolicy.Authorize(Policy = "Lecturer")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -145,7 +143,6 @@ namespace WebApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Schaeflein.Community.MVC5AuthZPolicy.Authorize(Policy = "Lecturer")]
         public ActionResult Edit([Bind(Include = "ID,Title,Description,ReleaseDate,DueDate")] MCQModels mCQModels)
         {
             if (ModelState.IsValid)
@@ -158,7 +155,6 @@ namespace WebApplication.Controllers
         }
 
         // GET: MCQ/Delete/5
-        [Schaeflein.Community.MVC5AuthZPolicy.Authorize(Policy = "Lecturer")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -174,7 +170,6 @@ namespace WebApplication.Controllers
         }
 
         // POST: MCQ/Delete/5
-        [Schaeflein.Community.MVC5AuthZPolicy.Authorize(Policy = "Lecturer")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

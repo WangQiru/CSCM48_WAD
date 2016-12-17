@@ -151,4 +151,5 @@ D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.fluentv
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.test.resources
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.test1.resources
 D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.test2.resources
-D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.seed_user.resources
+D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.Migrations.anouncement.resources
+D:\Git\WebApplication\WebApplication\obj\Debug\WebApplication.csprojResolveAssemblyReference.cache
