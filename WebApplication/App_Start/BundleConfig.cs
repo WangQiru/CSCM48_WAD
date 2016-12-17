@@ -20,17 +20,18 @@ namespace WebApplication
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",                      
-                      "~/Scripts/toastr.js",
-                      "~/Scripts/respond.js",
-                      "~/Scripts/Chart.js",
+                      "~/Scripts/bootstrap.min.js",                      
+                      "~/Scripts/toastr.min.js",
+                      "~/Scripts/respond.min.js",
+                      "~/Scripts/Chart.min.js",
+                      "~/Scripts/moment.min.js",
                       "~/Scripts/site.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap.min.css",
                       "~/Content/site.css",
-                      "~/Content/toastr.css",
-                      "~/Content/font-awesome.css"));
+                      "~/Content/toastr.min.css",
+                      "~/Content/font-awesome.min.css"));
         }
     }
 }

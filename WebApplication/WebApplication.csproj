@@ -185,7 +185,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Authorization\ClaimsAuthorizeAttribute.cs" />
-    <Compile Include="Controllers\AnouncementModelsController.cs" />
+    <Compile Include="Controllers\AnnouncementController.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -218,13 +218,13 @@
     <Compile Include="Migrations\201612150601312_test2.Designer.cs">
       <DependentUpon>201612150601312_test2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201612161933033_anouncement.cs" />
-    <Compile Include="Migrations\201612161933033_anouncement.Designer.cs">
-      <DependentUpon>201612161933033_anouncement.cs</DependentUpon>
+    <Compile Include="Migrations\201612171955132_announcement.cs" />
+    <Compile Include="Migrations\201612171955132_announcement.Designer.cs">
+      <DependentUpon>201612171955132_announcement.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\AnouncementModels.cs" />
+    <Compile Include="Models\AnnouncementModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\QuestionModels.cs" />
@@ -251,7 +251,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\site.css" />
-    <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
@@ -261,7 +260,6 @@
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -271,10 +269,11 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\site.js" />
-    <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
@@ -327,11 +326,6 @@
     <Content Include="Views\Response\Index.cshtml" />
     <Content Include="Views\Test\Result.cshtml" />
     <Content Include="Views\Account\_CustomExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\AnouncementModels\Create.cshtml" />
-    <Content Include="Views\AnouncementModels\Delete.cshtml" />
-    <Content Include="Views\AnouncementModels\Details.cshtml" />
-    <Content Include="Views\AnouncementModels\Edit.cshtml" />
-    <Content Include="Views\AnouncementModels\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -360,8 +354,8 @@
     <EmbeddedResource Include="Migrations\201612150601312_test2.resx">
       <DependentUpon>201612150601312_test2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612161933033_anouncement.resx">
-      <DependentUpon>201612161933033_anouncement.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201612171955132_announcement.resx">
+      <DependentUpon>201612171955132_announcement.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

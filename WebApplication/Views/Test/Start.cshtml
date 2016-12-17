@@ -40,8 +40,14 @@
                                 <td></td>
                                 <td style="text-align:right;">
                                     <a href="#" class="btn btn-primary" id="reviewBack">Back</a>
-                                    <a href="#" class="btn btn-danger" id="submitPopover" title="Confirmation" data-toggle="popover" data-placement="auto right" data-trigger="focus" data-html="true" data-content='<a class="btn btn-sm btn-danger" id="submit">Yes</a><a class="btn btn-sm btn-success pull-right" >No</a>'>Submit</a>&nbsp;&nbsp;
-                                </td>
+                                    @if (Model.MCQModels.DueDate > DateTime.Now) {
+                                    <a href="#" class="btn btn-danger" id="submitPopover" title="Confirmation" data-toggle="popover" data-placement="auto right" data-trigger="focus" data-html="true" data-content='<a class="btn btn-sm btn-danger" id="submit">Yes</a><a class="btn btn-sm btn-success pull-right" >No</a>'>Submit</a>
+                                    }
+                                    else
+                                    {
+                                        <p>Late submission isn't allowed.</p>
+                                    }
+                                 </td>
                             </tr>
                         </tbody>
                     </table>

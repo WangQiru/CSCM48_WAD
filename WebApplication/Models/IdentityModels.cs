@@ -34,7 +34,7 @@ namespace WebApplication.Models
             }
     **/
             // Add custom user claims here
-            if (this.StudentNo >= 0 && !manager.IsInRole(this.Id, "Student"))
+            if (this.StudentNo >= 0 && !manager.IsInRole(this.Id, "Student") && !manager.IsInRole(this.Id, "Lecturer"))
             {
                 manager.AddToRole(this.Id, "Student");
                 manager.AddClaim(this.Id, (new Claim("Role", "Student")));
@@ -64,6 +64,6 @@ namespace WebApplication.Models
         public DbSet<QuestionModels> Questions { get; set; }
         public DbSet<OptionModels> Options { get; set; }
         public DbSet<ResponseModels> Responses { get; set; }
-        public DbSet<AnouncementModels> Anouncements { get; set; }
+        public DbSet<AnnouncementModels> Announcements { get; set; }
     }
 }
