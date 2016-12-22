@@ -3,13 +3,6 @@
     color: #ffffff;
 }
 
-#loginLink:hover , #logoutLink:hover{
-    color: #d9534f;
-}
-
-#registerLink:hover{
-    color: #4582ec;
-}
 
 body {
     padding-top: 50px;
